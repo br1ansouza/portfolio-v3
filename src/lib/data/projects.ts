@@ -1,3 +1,7 @@
+import appBank from '../images/projects/app-bank.png';
+import ecommerce from '../images/projects/ecommerce.png';
+import farmacia from '../images/projects/farmacia.png';
+import webcarros from '../images/projects/webcarros.png';
 import type { Project } from '../types';
 
 export const projects: Project[] = [
@@ -8,6 +12,7 @@ export const projects: Project[] = [
       'Aplicativo bancário mobile com autenticação JWT, saldo, transações recentes, gráfico de gastos e cartão virtual.',
     technologies: ['React Native', 'TypeScript', 'Expo', 'JWT', 'Node.js'],
     githubUrl: 'https://github.com/br1ansouza/App-Bank',
+    image: appBank,
     featured: true,
   },
   {
@@ -26,6 +31,7 @@ export const projects: Project[] = [
       'App para compartilhar avaliações de automóveis e navegar por anúncios, com autenticação e catálogo.',
     technologies: ['TypeScript', 'React Native', 'Expo'],
     githubUrl: 'https://github.com/br1ansouza/app-Projeto-WebCarros',
+    image: webcarros,
     featured: true,
   },
   {
@@ -35,6 +41,7 @@ export const projects: Project[] = [
       'Listagem de produtos com busca, rolagem infinita e carrinho de compras.',
     technologies: ['JavaScript', 'React Native', 'Expo'],
     githubUrl: 'https://github.com/br1ansouza/app-ecommerce',
+    image: ecommerce,
     featured: true,
   },
   {
@@ -44,6 +51,7 @@ export const projects: Project[] = [
       'Gestão de estoque, usuários e movimentações de uma farmácia fictícia, com níveis de acesso.',
     technologies: ['JavaScript', 'TypeScript', 'React Native', 'Expo'],
     githubUrl: 'https://github.com/br1ansouza/App-React-Farmacia',
+    image: farmacia,
     featured: false,
   },
   {

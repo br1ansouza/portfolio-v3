@@ -33,26 +33,32 @@ validar lá antes de considerar definitivo.
 ## Direção visual (pixel art + GSAP + Lenis)
 
 - Estética pixel art com toque moderno (referência "HD-2D": sprite pixelado sobre luz/partícula moderna) — não pixel puro datado tipo GeoCities.
-- Tipografia pixel/bitmap só em headings e labels curtos. Corpo de texto em fonte legível normal — fonte bitmap em bloco de texto longo prejudica leitura e contraste (acessibilidade). Fonte pixel definitiva ainda não escolhida (`--font-display` aponta pra `--font-body` até lá) — candidatas: Press Start 2P, Silkscreen, Pixelify Sans.
+- Tipografia pixel só em heading e label curto — ver seção "Tipografia" abaixo.
 - GSAP (core + ScrollTrigger + SplitText — tudo gratuito desde abr/2025, sem plugin pago) + Lenis pro smooth scroll. Os dois precisam rodar no mesmo loop de animação (`lenis.on('scroll', ScrollTrigger.update)` + `gsap.ticker.add` + `gsap.ticker.lagSmoothing(0)`) — já implementado em `src/lib/actions/smoothScroll.ts`.
 - Regra de ouro: 2-3 momentos de animação marcantes valem mais que dez efeitos genéricos de fade-in-on-scroll repetidos em cada elemento. Direções com personalidade a explorar na fase de implementação:
   - Hero: nome reagindo ao mouse por letra (o portfolio-v2 abandonado já tinha uma versão disso — vale resgatar e dar um acabamento "stepped"/8-bit em vez de easing suave).
   - Transição entre seções no estilo "troca de fase" de jogo (combina com o fato de ele ter feito o Chromix).
-  - Preview de projeto: imagem entra pixelada/baixa resolução e "revela" nítida no hover ou scroll, em vez de tilt 3D ou zoom genérico.
+  - Transição de seção estilo "troca de fase" de jogo — ainda não implementada, candidata a próxima feature.
   - Efeito magnético sutil só nos CTAs principais — não em todo link da página.
   - Evitar: fade-up em cascata em todo elemento da tela, texto digitando letra a letra tipo terminal, partículas de fundo tipo starfield.
 - Detalhe de projeto expande inline (ex: accordion/clip-path) ou linka direto pro GitHub — nunca modal/overlay flutuante.
 
 ## Sistema de cores
 
-Cor vive em duas camadas em `src/lib/styles/tokens.css` — nunca hex/rgb solto em componente:
+Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `data-theme="pixel"` no `index.html`. Uma camada só: as escalas 50→950 do Skeleton (`--color-primary-*`, `--color-surface-*`, etc.) são a fonte única. Trocar a cara do site inteiro = editar esse arquivo, nada mais.
 
-1. **Primitivas** (`--palette-*`): a escala crua, ex. `--palette-ink-950`, `--palette-accent-500`. É a única coisa que muda pra reskinar o site inteiro.
-2. **Semânticas** (`--color-*`): o que o componente de fato usa, ex. `--color-bg`, `--color-text-muted`, `--color-accent-hover`. Cada uma aponta pra uma primitiva.
+- Componente usa classe Tailwind (`bg-primary-500`, `text-surface-300`), nunca hex solto nem `bg-[#...]`.
+- `--color-surface-*`: escala quase-preta levemente fria (`#0a0a0f` a `#eceef2`).
+- `--color-primary-*`: verde terminal (`#2fe08a` no 500). É a única cor de destaque usada — secondary (âmbar) e tertiary (magenta) existem porque o Skeleton exige a escala completa, mas não são usados na UI. Uma cor só de acento é o que mantém "elegante" em vez de "arcade gritado".
+- **`--radius-base` e `--radius-container` são `0`.** Canto reto é a decisão visual mais importante do projeto — canto arredondado + sombra é exatamente a assinatura "template de IA" que este portfolio existe pra evitar. Não reintroduzir.
+- Dark-only, sem toggle — mesmo padrão do Chromix e do TrackRide.
 
-Componente sempre usa `var(--color-*)`, nunca `var(--palette-*)` direto — isso preserva a indireção (trocar a paleta = editar as ~8 linhas de primitivas, nada mais).
+## Tipografia
 
-Paleta atual (placeholder intencional, mas já é uma escolha real, não um rascunho aleatório): base quase-preta (`--palette-ink-950` a `-100`) + um verde vivo único de acento (`--palette-accent-300/500/700`, tipo terminal/matrix) — alto contraste, uma cor só de destaque, sem paleta multi-neon (ficaria "gritado" demais pro "elegante e moderno" pedido). Dark-only, sem toggle de tema — mesmo padrão do Chromix (`dark theme fixo`) e do TrackRide (mapa em dark tile). Trocar antes de dar como definitivo é só editar as primitivas.
+- Display: **Silkscreen** (OFL), self-hospedada em `src/lib/fonts/*.woff2` — importada por caminho relativo em `tokens.css` pro Rspack empacotar com hash. Não usar CDN de fonte.
+- **Tamanho de fonte pixel tem que ser múltiplo de 8px** (`text-[8px]`, `text-[16px]`). Silkscreen é desenhada num grid de 8px; em tamanho quebrado (ex. `text-xs` = 12px) os glifos borram e aparecem artefatos que parecem acentos errados. Isso foi diagnosticado por screenshot, não é teoria.
+- `.font-display` tem `-webkit-font-smoothing: none` em `global.css` — sem isso o antialiasing arredonda a borda do pixel e mata o efeito.
+- Corpo de texto em sans-serif do sistema, tamanho livre. Fonte pixel só em heading, label e número.
 
 ## Ícones
 
@@ -60,13 +66,25 @@ Paleta atual (placeholder intencional, mas já é uma escolha real, não um rasc
 - **Ícone de marca (GitHub/LinkedIn/Discord) não usa o logo oficial** — usa um ícone genérico pixel art (`terminal`, `briefcase`, `message`) com o label ao lado identificando a plataforma. Dois motivos: (1) o logo oficial tem curva suave, quebraria a linguagem 100% pixel/blocada do resto do site; (2) `linkedin.svg` nem existe mais no principal banco de logos open source (`simple-icons`) por pedido de takedown — mais simples nem depender disso.
 - Créditos do pacote em `README.md`.
 
-## UI: por que não Skeleton (nem outra lib de componente)
+## UI: Tailwind 4 + Skeleton 5
 
-Cogitado usar [Skeleton](https://skeleton.dev/) (like no TrackRide) como base. Decisão: **não**, pelo menos não nessa fase.
+Decisão do usuário (revisada — a primeira versão deste arquivo dizia "sem framework CSS"; ficou obsoleta). Este é um projeto de poucos dias, não algo contínuo: partir de uma base pronta vale mais que artesanato de CSS.
 
-- Skeleton v5 exige Tailwind CSS 4 como peer dependency — contradiz a regra de "sem framework CSS" já adotada aqui pra fugir da cara genérica das versões antigas.
-- O sistema de token semântico do Skeleton (escala numérica por paleta) é bom — é exatamente o padrão que a seção "Sistema de cores" acima replica à mão, sem trazer Tailwind nem os componentes prontos (que têm cara própria de "SaaS moderno", difícil de descaracterizar pro visual pixel art/cantos retos que este projeto quer).
-- Se algum dia fizer sentido revisitar (ex: se o projeto crescer muito e a manutenção de CSS à mão virar fardo), é uma decisão nova — não assumir.
+- Tailwind 4 via `@rsbuild/plugin-tailwindcss` (plugin oficial, integração trivial).
+- Skeleton 5 (`@skeletonlabs/skeleton` + `@skeletonlabs/skeleton-svelte`) pelo sistema de tema/token e pelos componentes acessíveis quando precisar.
+- **O que neutraliza a cara genérica do Skeleton é o tema**, não evitar a lib: `radius: 0`, fonte pixel nos headings, paleta de uma cor só de acento, zero sombra. Componente pronto do Skeleton só entra se couber nessa linguagem — se chegar com cara de "SaaS moderno" e exigir muito override, fazer à mão sai mais barato.
+- Ordem dos `@import` em `src/index.css` importa: `tailwindcss` → `@skeletonlabs/skeleton` → tokens → tema → global. O `@source` no fim registra os componentes do skeleton-svelte pro scanner do Tailwind.
+
+## Animações — os três efeitos assinatura
+
+Todos falam a mesma língua: **um display CRT/retrô resolvendo uma imagem**. Coerência é o que faz parecer intencional em vez de "efeito que a IA achou legal".
+
+1. **`pixelReveal`** (`src/lib/actions/pixelReveal.ts`) — o momento "como fizeram isso". Cobre o elemento com uma grade de blocos na cor do fundo e some com eles em **ordem de dithering Bayer 4x4** (`src/lib/actions/bayer.ts`), não aleatória. Efeito: o conteúdo materializa como imagem carregando em modem de 1998. Disparado por ScrollTrigger, uma vez só. Usado na lista de projetos.
+2. **`letterPush`** (`src/lib/actions/letterPush.ts`) — o nome no hero é quebrado em `<span>` por letra e as letras fogem do cursor. **Easing `steps(4)`/`steps(5)`, nunca suave** — é o passo travado que faz parecer 8-bit em vez de "física de portfólio genérico". Herdado do portfolio-v2 abandonado, com o acabamento stepped que faltava.
+3. **Preview de projeto** (`ProjectPreview.svelte`) — screenshot real do app aparece ao passar o mouse na linha. Ancorado na direita e seguindo só a vertical (seguir o cursor nos dois eixos tapava o texto). Movimento com `steps(5)`, não lerp suave — parece sprite de baixo framerate. Imagem em 320px com `image-rendering: pixelated`: aqui otimização e estética são a mesma decisão (2,2 MB originais viraram 96 KB).
+4. **Scanlines por velocidade de scroll** (`Scanlines.svelte` + callback de velocidade no `smoothScroll.ts`) — linhas de varredura CRT que só aparecem enquanto se rola rápido, proporcionais à velocidade do Lenis. Em repouso são invisíveis. É o detalhe que ninguém espera.
+
+Regras: nada de fade-up em cascata, nada de partícula de fundo, nada de texto digitando letra a letra. Hover de lista é **inversão de cor com `ease-[steps(3,jump-none)]`** (linha inteira vira `bg-primary-500` com texto escuro) — nunca hover-lift com sombra. Todos os efeitos respeitam `prefers-reduced-motion`.
 
 ## O que evitar explicitamente (aprendido com as versões antigas)
 
@@ -83,17 +101,19 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 
 ## Regras técnicas
 
-- Stack: Svelte 5 (runes) + TypeScript + Rsbuild + GSAP + Lenis. Sem framework CSS (Tailwind/MUI/styled-components) — CSS puro com tokens. Sem React nem lib nenhuma do ecossistema React (as versões antigas eram React; esta é a saída deliberada).
+- Stack: Svelte 5 (runes) + TypeScript + Rsbuild + Tailwind 4 + Skeleton 5 + GSAP + Lenis. Sem React nem lib do ecossistema React (as versões antigas eram React; esta é a saída deliberada).
 - **TypeScript fixado em `^6.0.0`, não 7.x.** TS 7 (compilador nativo/Go) quebra `svelte-check` e `typescript-eslint` até a API programática estabilizar na 7.1 (previsão ~out/2026). Reavaliar a atualização quando isso sair.
 - Gerenciador de pacotes: npm.
 - Estrutura em `src/`:
   - `lib/components/` — seções da página e subcomponentes.
   - `lib/data/` — conteúdo tipado (perfil, projetos, certificados, skills, ícones).
   - `lib/types/` — interfaces compartilhadas.
-  - `lib/styles/` — tokens de design + reset global.
-  - `lib/actions/` — integrações que não são componente (Lenis/GSAP).
+  - `lib/styles/` — `tokens.css` (fontes + `@theme`), `theme.css` (tema Skeleton), `global.css` (reset).
+  - `lib/actions/` — Svelte actions e integrações que não são componente (Lenis/GSAP, pixelReveal, letterPush, bayer).
+  - `lib/fonts/` — woff2 da Silkscreen (self-hospedada).
 - Tipagem: nunca `any`; tipos explícitos. Arquivo que usa runes (`$state`, `$derived`, `$effect`) fora de componente precisa ser `.svelte.ts`, nunca `.ts` puro.
-- Cores: nunca hex/rgb hardcoded fora de `src/lib/styles/tokens.css` — sempre `var(--color-*)`.
+- Cores: nunca hex/rgb hardcoded em componente. Sempre classe Tailwind do tema (`bg-surface-900`, `text-primary-500`) ou `var(--color-*)` em bloco `<style>`.
+- **Validar visualmente antes de dar por pronto.** `npm run check` passar não significa que a tela está boa — os problemas reais deste projeto (fonte pixel borrada, borda dupla, espaço morto) só apareceram em screenshot. Subir o dev server e olhar com browser headless (Playwright instalado no scratchpad da sessão).
 - **Sem comentário no meio do código.** Nome de variável/função claro substitui comentário. Nada de código comentado (código morto), nada de emoji em código.
 - Limite de 150–200 linhas por arquivo; extrair lógica se passar disso.
 - Ambiguidade: não assumir — perguntar antes de implementar.
@@ -110,4 +130,13 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 
 ## Status
 
-- 2026-08-06: repositório criado. Casca do projeto (Rsbuild + Svelte 5 + TS) no ar, com seções estruturais, dados tipados extraídos do portfolio antigo e integração básica Lenis/GSAP wireada. Removido navbar/footer fixo (só scroll). Sistema de cores (primitiva/semântica) e ícones (pixelarticons, extraído à mão) implementados. Fonte pixel definitiva, animações de verdade e curadoria final do `CONTENT.md` ainda pendentes.
+- 2026-08-06: repositório criado; casca (Rsbuild + Svelte 5 + TS), navbar/footer removidos, ícones pixelarticons.
+- 2026-08-06 (mesma sessão, depois): Tailwind 4 + Skeleton 5 adotados, tema `pixel` customizado, Silkscreen self-hospedada, as 5 seções construídas e os 3 efeitos assinatura implementados. Validado por screenshot em headless: sem erro de console, hover de inversão funcionando, fonte pixel crispa.
+
+**Pendente:**
+
+- Foto de perfil: já copiada pra `src/lib/images/profile.jpg` (320px), mas **ainda não usada em lugar nenhum** — decidir se entra no Sobre.
+- API de Gestão e Simulador RPG não têm screenshot (só logo no portfolio antigo), então não têm preview no hover. Ou gerar uma imagem, ou aceitar a assimetria.
+- Novos certificados (usuário adiciona no fim — não é bloqueio).
+- Decisões abertas do `CONTENT.md` (curadoria de projeto, formação acadêmica, deploy, visibilidade do repo).
+- Espaço morto embaixo da coluna de bio no Sobre quando o texto é curto — cosmético, não resolvido.
