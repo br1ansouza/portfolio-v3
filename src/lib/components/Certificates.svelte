@@ -2,6 +2,7 @@
   import { certificates } from '../data/certificates';
   import { infiniteMarquee } from '../actions/infiniteMarquee';
   import SectionHeading from './SectionHeading.svelte';
+  import Icon from './Icon.svelte';
 
   let track: HTMLElement | undefined = $state();
 
@@ -9,11 +10,18 @@
 </script>
 
 <section id="certificados" class="py-20">
-  <div class="mx-auto w-full max-w-5xl px-6">
+  <div class="mx-auto flex w-full max-w-5xl items-center gap-4 px-6">
     <SectionHeading index="03" title="CERTIFICADOS" />
+    <span class="nudge -mt-8 text-primary-500" title="Role na horizontal" aria-hidden="true">
+      <Icon name="scrollX" size={16} />
+    </span>
   </div>
 
-  <div class="viewport" data-lenis-prevent use:infiniteMarquee={track}>
+  <div
+    class="viewport"
+    data-lenis-prevent
+    use:infiniteMarquee={{ track, count: certificates.length }}
+  >
     <ul bind:this={track} class="track">
       {#each loop as cert, index (index)}
         {@const latest = index % certificates.length === 0}
@@ -47,10 +55,6 @@
       {/each}
     </ul>
   </div>
-
-  <p class="mx-auto mt-6 w-full max-w-5xl px-6 text-xs text-surface-600">
-    Role com o mouse sobre os cartões
-  </p>
 </section>
 
 <style>
@@ -68,5 +72,20 @@
     padding: 0;
     width: max-content;
     will-change: transform;
+  }
+
+  .nudge {
+    display: inline-flex;
+    animation: nudge 2s steps(3, jump-none) infinite;
+  }
+
+  @keyframes nudge {
+    0%,
+    100% {
+      transform: translateX(-3px);
+    }
+    50% {
+      transform: translateX(3px);
+    }
   }
 </style>

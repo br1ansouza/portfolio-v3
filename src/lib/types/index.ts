@@ -1,4 +1,5 @@
-export type SocialIconName = 'mail' | 'github' | 'linkedin' | 'discord';
+export type SocialIconName =
+  'mail' | 'github' | 'linkedin' | 'discord' | 'scrollX';
 
 export interface SocialLink {
   label: string;
