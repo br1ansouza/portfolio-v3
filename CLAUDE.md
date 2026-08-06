@@ -116,6 +116,17 @@ Regra: **poucos projetos fortes, todos de autoria própria**. Uma lista de 8 ond
 - Também cortados por serem exercício de 2024 redundante: `app-ecommerce`, `App-React-Farmacia`.
 - O link "Mais em github.com/br1ansouza" no fim da seção cobre o resto sem poluir a lista.
 
+## Certificados: carrossel infinito
+
+A lista vertical de 11 certificados ficava longa e chata de ler. Virou uma faixa horizontal em `Certificates.svelte` + `actions/infiniteMarquee.ts`:
+
+- **Loop infinito de verdade**: a lista é renderizada duas vezes e o deslocamento faz wrap na metade da largura. As cópias têm `tabindex="-1"` e `aria-hidden` pra não duplicar no leitor de tela nem no Tab.
+- **Só anda com a roda do mouse em cima da faixa**, sem rolar a página junto. O primeiro card tem borda de acento, servindo de marcador de onde a volta começa.
+- **`data-lenis-prevent` no container é obrigatório.** Sem ele o Lenis captura a roda no nível do documento, a página rola, o cursor sai da faixa e o carrossel congela. `preventDefault` sozinho não resolve, porque o Lenis não usa scroll nativo. Isso foi diagnosticado medindo o deslocamento travando em -990.
+- **Tentativa descartada**: `ScrollTrigger` com `pin` movendo a faixa conforme o scroll vertical. Funcionava, mas prende a página, que foi exatamente o que o usuário rejeitou.
+- A faixa de captura tem só ~176px de altura, então mover o mouse pra fora já libera o scroll normal. Sem armadilha.
+- Tem uma linha de dica ("Role com o mouse sobre os cartões") porque a interação não é óbvia sozinha.
+
 ## O que evitar explicitamente (aprendido com as versões antigas)
 
 Os dois portfolios antigos (`br1ansouza/portfolio`, `br1ansouza/portfolio-v2`) têm
