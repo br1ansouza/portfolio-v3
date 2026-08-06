@@ -33,12 +33,12 @@ validar lá antes de considerar definitivo.
 ## Direção visual (pixel art + GSAP + Lenis)
 
 - Estética pixel art com toque moderno (referência "HD-2D": sprite pixelado sobre luz/partícula moderna) — não pixel puro datado tipo GeoCities.
-- Tipografia pixel/bitmap só em headings e labels curtos. Corpo de texto em fonte legível normal — fonte bitmap em bloco de texto longo prejudica leitura e contraste (acessibilidade). Fonte pixel definitiva ainda não escolhida (`--font-display` aponta pra `--font-body` até lá) — candidatas: Press Start 2P, Silkscreen, Pixelify Sans.
+- Tipografia pixel só em heading e label curto — ver seção "Tipografia" abaixo.
 - GSAP (core + ScrollTrigger + SplitText — tudo gratuito desde abr/2025, sem plugin pago) + Lenis pro smooth scroll. Os dois precisam rodar no mesmo loop de animação (`lenis.on('scroll', ScrollTrigger.update)` + `gsap.ticker.add` + `gsap.ticker.lagSmoothing(0)`) — já implementado em `src/lib/actions/smoothScroll.ts`.
 - Regra de ouro: 2-3 momentos de animação marcantes valem mais que dez efeitos genéricos de fade-in-on-scroll repetidos em cada elemento. Direções com personalidade a explorar na fase de implementação:
   - Hero: nome reagindo ao mouse por letra (o portfolio-v2 abandonado já tinha uma versão disso — vale resgatar e dar um acabamento "stepped"/8-bit em vez de easing suave).
   - Transição entre seções no estilo "troca de fase" de jogo (combina com o fato de ele ter feito o Chromix).
-  - Preview de projeto: imagem entra pixelada/baixa resolução e "revela" nítida no hover ou scroll, em vez de tilt 3D ou zoom genérico.
+  - Transição de seção estilo "troca de fase" de jogo — ainda não implementada, candidata a próxima feature.
   - Efeito magnético sutil só nos CTAs principais — não em todo link da página.
   - Evitar: fade-up em cascata em todo elemento da tela, texto digitando letra a letra tipo terminal, partículas de fundo tipo starfield.
 - Detalhe de projeto expande inline (ex: accordion/clip-path) ou linka direto pro GitHub — nunca modal/overlay flutuante.
