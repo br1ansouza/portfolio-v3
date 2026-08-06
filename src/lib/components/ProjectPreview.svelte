@@ -3,11 +3,14 @@
   import gsap from 'gsap';
 
   interface Props {
-    source: string | undefined;
+    image: string | undefined;
+    video: string | undefined;
   }
 
-  let { source }: Props = $props();
+  let { image, video }: Props = $props();
   let element: HTMLDivElement | undefined = $state();
+
+  const visible = $derived(Boolean(image ?? video));
 
   function handleMove(event: PointerEvent) {
     if (!element) return;
@@ -29,14 +32,13 @@
   });
 </script>
 
-<div
-  bind:this={element}
-  class="preview"
-  class:preview--visible={Boolean(source)}
-  aria-hidden="true"
->
-  {#if source}
-    <img src={source} alt="" width="180" />
+<div bind:this={element} class="preview" class:preview--visible={visible} aria-hidden="true">
+  {#if video}
+    {#key video}
+      <video src={video} autoplay loop muted playsinline></video>
+    {/key}
+  {:else if image}
+    <img src={image} alt="" width="180" />
   {/if}
 </div>
 
@@ -58,11 +60,12 @@
     opacity: 1;
   }
 
-  .preview img {
+  .preview img,
+  .preview video {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 260px;
+    max-height: 300px;
     object-fit: cover;
     object-position: top;
     image-rendering: pixelated;

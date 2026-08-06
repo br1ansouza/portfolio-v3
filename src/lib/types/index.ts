@@ -20,6 +20,7 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   image?: string;
+  video?: string;
 }
 
 export interface Certificate {
