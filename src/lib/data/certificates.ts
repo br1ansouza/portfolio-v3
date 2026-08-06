@@ -4,8 +4,14 @@ export const certificates: Certificate[] = [
   {
     name: 'Testes Automatizados com Playwright',
     institution: 'Udemy',
-    date: '2026',
+    date: '2025',
     link: 'https://drive.google.com/file/d/16YwrTyjy3eQs3uU3RTltKDhVvj05phc_/view?usp=drive_link',
+  },
+  {
+    name: 'Ambientes Computacionais e Conectividade',
+    institution: 'Unisul',
+    date: '2025',
+    link: 'https://drive.google.com/file/d/151hXSNY0QEshYFQBHKtpyaFK0k0wdHk9/view?usp=sharing',
   },
   {
     name: 'Desenvolvimento Full Stack',
@@ -30,12 +36,6 @@ export const certificates: Certificate[] = [
     institution: 'LAB365',
     date: '2025',
     link: 'https://drive.google.com/file/d/1-XHxEg9cCRRAyv5e_1Io2noM_zjEIgb1/view?usp=sharing',
-  },
-  {
-    name: 'Ambientes Computacionais e Conectividade',
-    institution: 'Unisul',
-    date: '2025',
-    link: 'https://drive.google.com/file/d/151hXSNY0QEshYFQBHKtpyaFK0k0wdHk9/view?usp=sharing',
   },
   {
     name: 'Desenvolvimento Web Compacto e Completo',
