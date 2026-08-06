@@ -76,9 +76,9 @@ void main() {
 
   float verticalFade = smoothstep(-0.6, 0.5, uv.y);
   float aspect = uResolution.x / uResolution.y;
-  vec2 textCenter = vec2(-0.22 * aspect, 0.02);
-  float textMask = smoothstep(0.16, 0.62, length((uv - textCenter) * vec2(0.62, 1.35)));
-  intensity *= verticalFade * mix(0.12, 1.0, textMask);
+  vec2 textCenter = vec2(-0.22 * aspect, -0.03);
+  float textMask = smoothstep(0.18, 0.66, length((uv - textCenter) * vec2(0.58, 1.05)));
+  intensity *= verticalFade * mix(0.06, 1.0, textMask);
 
   float lit = step(bayerThreshold(block), intensity);
   vec3 color = mix(uInk, uAccent, lit * (0.35 + glow * 0.65));
