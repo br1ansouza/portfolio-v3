@@ -60,6 +60,10 @@ Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `
 - `.font-display` tem `-webkit-font-smoothing: none` em `global.css` — sem isso o antialiasing arredonda a borda do pixel e mata o efeito.
 - Corpo de texto em sans-serif do sistema, tamanho livre. Fonte pixel só em heading, label e número.
 
+## Scrollbar oculta
+
+A barra de rolagem nativa está escondida em `global.css` (`scrollbar-width: none` + `::-webkit-scrollbar`), a pedido do usuário. O scroll continua funcionando por roda, toque, teclado (setas, PageUp/Down, Home/End) e pelo Lenis. O que se perde é arrastar a barra com o mouse e a noção visual de progresso na página. Se um dia isso incomodar, a saída é um indicador discreto de progresso, nunca trazer a barra padrão de volta.
+
 ## Ícones
 
 - Lib escolhida: [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT, ~900 ícones pixel art). Não instalado como dependência — só os `path` SVG usados foram extraídos manualmente pra `src/lib/data/icons.ts` (projeto é pequeno demais pra justificar o pacote inteiro, que também não tem build pra Svelte, só React/Vue/webfont).

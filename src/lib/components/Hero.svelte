@@ -21,9 +21,9 @@
       use:letterPush={profile.name}
     >{profile.name}</h1>
 
-    <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-surface-300">
+    <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-surface-100">
       <span>{profile.role}</span>
-      <span class="text-surface-600">/</span>
+      <span class="text-primary-500">/</span>
       <span>{profile.location}</span>
     </div>
   </div>
