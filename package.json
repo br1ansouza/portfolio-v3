@@ -1,0 +1,38 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Portfólio pessoal de Brian Souza — Svelte 5 + Rsbuild, estética pixel art.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/br1ansouza/portfolio-v3.git"
+  },
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "svelte": "^5.56.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rsbuild/core": "^2.1.10",
+    "@rsbuild/plugin-svelte": "^2.0.1",
+    "@types/node": "^24.13.3",
+    "eslint": "^10.4.0",
+    "eslint-plugin-svelte": "^3.17.1",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3",
+    "svelte-check": "^4.7.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4"
+  }
+}
