@@ -2,7 +2,12 @@
   import { projects } from '../data/projects';
   import { pixelReveal } from '../actions/pixelReveal';
   import SectionHeading from './SectionHeading.svelte';
+  import ProjectPreview from './ProjectPreview.svelte';
+
+  let hoveredImage: string | undefined = $state();
 </script>
+
+<ProjectPreview source={hoveredImage} />
 
 <section id="projetos" class="mx-auto w-full max-w-5xl px-6 py-20">
   <SectionHeading index="02" title="PROJETOS" />
@@ -15,6 +20,10 @@
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onpointerenter={() => (hoveredImage = project.image)}
+          onpointerleave={() => (hoveredImage = undefined)}
+          onfocus={() => (hoveredImage = project.image)}
+          onblur={() => (hoveredImage = undefined)}
         >
           <span
             class="font-display text-[8px] text-surface-500 group-hover:text-surface-950"
