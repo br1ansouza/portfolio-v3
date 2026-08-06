@@ -18,7 +18,7 @@
   }
 
   .hero__eyebrow {
-    color: var(--color-text-muted);
+    color: var(--color-accent);
     margin: 0 0 var(--space-1);
   }
 
