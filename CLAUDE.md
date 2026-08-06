@@ -81,7 +81,8 @@ Todos falam a mesma língua: **um display CRT/retrô resolvendo uma imagem**. Co
 
 1. **`pixelReveal`** (`src/lib/actions/pixelReveal.ts`) — o momento "como fizeram isso". Cobre o elemento com uma grade de blocos na cor do fundo e some com eles em **ordem de dithering Bayer 4x4** (`src/lib/actions/bayer.ts`), não aleatória. Efeito: o conteúdo materializa como imagem carregando em modem de 1998. Disparado por ScrollTrigger, uma vez só. Usado na lista de projetos.
 2. **`letterPush`** (`src/lib/actions/letterPush.ts`) — o nome no hero é quebrado em `<span>` por letra e as letras fogem do cursor. **Easing `steps(4)`/`steps(5)`, nunca suave** — é o passo travado que faz parecer 8-bit em vez de "física de portfólio genérico". Herdado do portfolio-v2 abandonado, com o acabamento stepped que faltava.
-3. **Scanlines por velocidade de scroll** (`Scanlines.svelte` + callback de velocidade no `smoothScroll.ts`) — linhas de varredura CRT que só aparecem enquanto se rola rápido, proporcionais à velocidade do Lenis. Em repouso são invisíveis. É o detalhe que ninguém espera.
+3. **Preview de projeto** (`ProjectPreview.svelte`) — screenshot real do app aparece ao passar o mouse na linha. Ancorado na direita e seguindo só a vertical (seguir o cursor nos dois eixos tapava o texto). Movimento com `steps(5)`, não lerp suave — parece sprite de baixo framerate. Imagem em 320px com `image-rendering: pixelated`: aqui otimização e estética são a mesma decisão (2,2 MB originais viraram 96 KB).
+4. **Scanlines por velocidade de scroll** (`Scanlines.svelte` + callback de velocidade no `smoothScroll.ts`) — linhas de varredura CRT que só aparecem enquanto se rola rápido, proporcionais à velocidade do Lenis. Em repouso são invisíveis. É o detalhe que ninguém espera.
 
 Regras: nada de fade-up em cascata, nada de partícula de fundo, nada de texto digitando letra a letra. Hover de lista é **inversão de cor com `ease-[steps(3,jump-none)]`** (linha inteira vira `bg-primary-500` com texto escuro) — nunca hover-lift com sombra. Todos os efeitos respeitam `prefers-reduced-motion`.
 
@@ -134,8 +135,8 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 
 **Pendente:**
 
-- Imagens dos projetos (screenshots existem em `br1ansouza/portfolio`, `src/assets/projects-images/**` — App Bank, E-commerce, Farmácia e WebCarros têm captura real; API de Gestão e RPG só logo). Ideia casada com a direção visual: preview entrando pixelado e resolvendo.
-- Foto de perfil (existe nos dois portfolios antigos).
+- Foto de perfil: já copiada pra `src/lib/images/profile.jpg` (320px), mas **ainda não usada em lugar nenhum** — decidir se entra no Sobre.
+- API de Gestão e Simulador RPG não têm screenshot (só logo no portfolio antigo), então não têm preview no hover. Ou gerar uma imagem, ou aceitar a assimetria.
 - Novos certificados (usuário adiciona no fim — não é bloqueio).
 - Decisões abertas do `CONTENT.md` (curadoria de projeto, formação acadêmica, deploy, visibilidade do repo).
 - Espaço morto embaixo da coluna de bio no Sobre quando o texto é curto — cosmético, não resolvido.
