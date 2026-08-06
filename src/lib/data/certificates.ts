@@ -2,6 +2,30 @@ import type { Certificate } from '../types';
 
 export const certificates: Certificate[] = [
   {
+    name: 'Testes Automatizados com Playwright',
+    institution: 'Udemy',
+    date: '2026',
+    link: 'https://drive.google.com/file/d/16YwrTyjy3eQs3uU3RTltKDhVvj05phc_/view?usp=drive_link',
+  },
+  {
+    name: 'Desenvolvimento Full Stack',
+    institution: 'SENAI / LAB365',
+    date: '2025',
+    link: 'https://drive.google.com/file/d/1fQTwMoMofadk9GqVy6hvvqSwRRiRbimX/view?usp=drive_link',
+  },
+  {
+    name: 'Full Stack - Módulo 3 - LAB365',
+    institution: 'LAB365',
+    date: '2025',
+    link: 'https://drive.google.com/file/d/1BjzgSB1mwL47Iydj0eKe78qbuIFod89j/view?usp=sharing',
+  },
+  {
+    name: 'Ambientes Computacionais e Conectividade',
+    institution: 'Unisul',
+    date: '2025',
+    link: 'https://drive.google.com/file/d/151hXSNY0QEshYFQBHKtpyaFK0k0wdHk9/view?usp=sharing',
+  },
+  {
     name: 'BackEnd - Módulo 2 - LAB365',
     institution: 'LAB365',
     date: '2025',

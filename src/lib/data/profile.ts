@@ -1,14 +1,36 @@
-import type { SocialLink } from '../types';
+import type { Education, SocialLink } from '../types';
 
 export const profile = {
   name: 'Brian Souza',
-  role: 'Desenvolvedor Front-end',
+  role: 'Desenvolvedor Front-end e Mobile',
   location: 'Florianópolis, BR',
   bio: [
-    'Desenvolvedor front-end em Florianópolis. No trabalho é React, TypeScript e Node; nos projetos pessoais é onde testo o que não cabe no dia a dia — Svelte, layout pixel art, essas coisas.',
-    'Fora do teclado: trilha, moto e câmera na mão sempre que dá.',
+    'Trabalho com React e TypeScript em aplicações escaláveis, integrando APIs REST sobre arquitetura de microsserviços, com testes automatizados em Playwright e ambiente monorepo.',
+    'Também escrevo backend em Ruby on Rails e mobile, tanto híbrido com Capacitor quanto Android nativo em Kotlin. Já resolvi rastreamento GPS em segundo plano, consulta geográfica em PostGIS e funcionamento offline com dados sincronizados depois.',
+    'Curso pós-graduação em DevOps e trabalho com Docker, AWS e Linux.',
   ],
 };
+
+export const education: Education[] = [
+  {
+    course: 'Pós-graduação em DevOps',
+    institution: 'Em andamento',
+    period: '2026',
+    link: undefined,
+  },
+  {
+    course: 'Análise e Desenvolvimento de Sistemas',
+    institution: 'Unisul',
+    period: '2024 a 2026',
+    link: 'https://drive.google.com/file/d/1wDii3qvMZOE0_0w8AWWVXLkOvfMqPuEH/view?usp=sharing',
+  },
+  {
+    course: 'Desenvolvimento Full Stack',
+    institution: 'SENAI / LAB365',
+    period: '2024 a 2025',
+    link: 'https://drive.google.com/file/d/1fQTwMoMofadk9GqVy6hvvqSwRRiRbimX/view?usp=drive_link',
+  },
+];
 
 export const socialLinks: SocialLink[] = [
   { label: 'E-mail', url: 'mailto:briandesouza1597@gmail.com', icon: 'mail' },
