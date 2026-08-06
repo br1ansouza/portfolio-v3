@@ -5,6 +5,7 @@
   import Icon from './Icon.svelte';
 
   let track: HTMLElement | undefined = $state();
+  let activeIndex = $state(-1);
 
   const loop = [...certificates, ...certificates];
 </script>
@@ -20,33 +21,29 @@
   <div
     class="viewport"
     data-lenis-prevent
-    use:infiniteMarquee={{ track, count: certificates.length }}
+    use:infiniteMarquee={{
+      track,
+      count: certificates.length,
+      onActive: (index) => (activeIndex = index),
+    }}
   >
     <ul bind:this={track} class="track">
       {#each loop as cert, index (index)}
         {@const latest = index % certificates.length === 0}
         <li>
           <a
-            class="group flex h-44 w-60 shrink-0 flex-col justify-between border p-4 transition-colors duration-150 ease-[steps(3,jump-none)] hover:bg-primary-500 {latest
-              ? 'border-primary-500'
-              : 'border-surface-700'}"
+            class="card {latest ? 'card--latest' : ''}"
+            data-card={index}
+            data-active={index === activeIndex ? 'true' : undefined}
             href={cert.link}
             target="_blank"
             rel="noopener noreferrer"
             tabindex={index < certificates.length ? 0 : -1}
             aria-hidden={index >= certificates.length}
           >
-            <span class="font-display text-[16px] text-primary-500 group-hover:text-surface-950">
-              {cert.date}
-            </span>
-
-            <span class="text-[0.95rem] leading-snug text-surface-100 group-hover:text-surface-950">
-              {cert.name}
-            </span>
-
-            <span
-              class="flex items-center justify-between text-xs text-surface-500 group-hover:text-surface-800"
-            >
+            <span class="card__year">{cert.date}</span>
+            <span class="card__name">{cert.name}</span>
+            <span class="card__meta">
               <span>{cert.institution}</span>
               <span aria-hidden="true">↗</span>
             </span>
@@ -72,6 +69,57 @@
     padding: 0;
     width: max-content;
     will-change: transform;
+  }
+
+  .card {
+    --card-year: var(--color-primary-500);
+    --card-name: var(--color-surface-100);
+    --card-meta: var(--color-surface-500);
+    --card-bg: transparent;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 15rem;
+    height: 11rem;
+    flex-shrink: 0;
+    padding: 1rem;
+    border: 1px solid var(--color-surface-700);
+    background: var(--card-bg);
+    text-decoration: none;
+    transition: background-color 150ms steps(3, jump-none);
+  }
+
+  .card--latest {
+    border-color: var(--color-primary-500);
+  }
+
+  .card[data-active],
+  .card:focus-visible {
+    --card-bg: var(--color-primary-500);
+    --card-year: var(--color-surface-950);
+    --card-name: var(--color-surface-950);
+    --card-meta: var(--color-surface-800);
+  }
+
+  .card__year {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--card-year);
+  }
+
+  .card__name {
+    font-size: 0.95rem;
+    line-height: 1.375;
+    color: var(--card-name);
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--card-meta);
   }
 
   .nudge {
