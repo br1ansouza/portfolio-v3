@@ -28,3 +28,10 @@ export interface Certificate {
   date: string;
   link: string;
 }
+
+export interface Education {
+  course: string;
+  institution: string;
+  period: string;
+  link?: string;
+}
