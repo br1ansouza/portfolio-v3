@@ -10,9 +10,11 @@
   import Contact from './lib/components/Contact.svelte';
 
   let scrollIntensity: number = $state(0);
+  let scrollProgress: number = $state(0);
 
   const handleVelocity: VelocityListener = (intensity: number) => {
     scrollIntensity = intensity;
+    scrollProgress = window.scrollY / Math.max(window.innerHeight, 1);
   };
 
   onMount(() => {
@@ -27,7 +29,7 @@
 <Scanlines intensity={scrollIntensity} />
 
 <main>
-  <Hero />
+  <Hero scroll={scrollProgress} />
   <About />
   <Projects />
   <Certificates />

@@ -1,10 +1,17 @@
 <script lang="ts">
   import { profile } from '../data/profile';
   import { letterPush } from '../actions/letterPush';
+  import DitherField from './DitherField.svelte';
+
+  interface Props {
+    scroll?: number;
+  }
+
+  let { scroll = 0 }: Props = $props();
 </script>
 
 <section id="hero" class="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden">
-  <div class="dither" aria-hidden="true"></div>
+  <DitherField {scroll} />
 
   <div class="relative z-1 mx-auto w-full max-w-5xl px-6">
     <p class="font-display text-[8px] tracking-[0.35em] text-primary-500">PORTFOLIO</p>
@@ -30,14 +37,6 @@
 </section>
 
 <style>
-  .dither {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle at 1px 1px, var(--color-surface-800) 1px, transparent 0);
-    background-size: 4px 4px;
-    mask-image: linear-gradient(to bottom, transparent 35%, black 105%);
-  }
-
   .blink {
     animation: blink 1.4s steps(2, jump-none) infinite;
   }

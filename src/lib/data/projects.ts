@@ -1,3 +1,5 @@
+import trackrideVideo from '../videos/trackride.webm';
+import chromixVideo from '../videos/chromix.webm';
 import trackride from '../images/projects/trackride.png';
 import chromix from '../images/projects/chromix.png';
 import appBank from '../images/projects/app-bank.png';
@@ -20,6 +22,7 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/br1ansouza/TrackRide',
     featured: true,
     image: trackride,
+    video: trackrideVideo,
   },
   {
     slug: 'chromix',
@@ -30,6 +33,7 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/br1ansouza/Chromix',
     featured: true,
     image: chromix,
+    video: chromixVideo,
   },
   {
     slug: 'app-bank',
