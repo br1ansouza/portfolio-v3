@@ -2,9 +2,14 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: /
+    target-branch: dev
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: 'typescript'
+        versions: ['>=7.0.0']
   - package-ecosystem: github-actions
     directory: /
+    target-branch: dev
     schedule:
       interval: weekly
