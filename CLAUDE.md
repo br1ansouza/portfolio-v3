@@ -86,6 +86,25 @@ Todos falam a mesma língua: **um display CRT/retrô resolvendo uma imagem**. Co
 
 Regras: nada de fade-up em cascata, nada de partícula de fundo, nada de texto digitando letra a letra. Hover de lista é **inversão de cor com `ease-[steps(3,jump-none)]`** (linha inteira vira `bg-primary-500` com texto escuro) — nunca hover-lift com sombra. Todos os efeitos respeitam `prefers-reduced-motion`.
 
+## Regras de escrita (texto do site)
+
+Feedback direto do usuário. Estas regras valem pra qualquer texto que apareça na tela:
+
+- **Nunca usar travessão (—) no meio de frase.** É a marca registrada de texto gerado por IA. Usar ponto, vírgula, dois-pontos ou ponto e vírgula.
+- **Nada de frase de efeito genérica.** Foi rejeitado: "nos projetos pessoais é onde testo o que não cabe no dia a dia", "Fora do teclado: trilha, moto e câmera na mão sempre que dá", "essas coisas". Se a frase caberia no portfólio de qualquer outro dev, ela não diz nada.
+- **Fato concreto no lugar de adjetivo.** "rastreamento GPS que continua rodando com a tela bloqueada" vale mais que "aplicações de alto impacto".
+- **A bio não cita projeto pelo nome.** A seção de Projetos já lista. Repetir o nome do app na bio é redundante e lê mal. A bio descreve capacidade, não catálogo.
+- Fonte de verdade sobre o que ele faz hoje: o **perfil do GitHub** (github.com/br1ansouza) e os repos recentes. O conteúdo dos portfolios antigos está defasado e subestima ele.
+
+## Curadoria de projetos
+
+Regra: **poucos projetos fortes, todos de autoria própria**. Uma lista de 8 onde 6 são exercício de curso enfraquece as 2 boas.
+
+- Listados hoje: TrackRide, Chromix, App Bank, API de Gestão de Filiais.
+- **Nunca listar repositório que é fork.** Verificar com `gh api repos/br1ansouza/<repo> --jq .fork` antes de incluir. Foram cortados por esse motivo: `app-Projeto-WebCarros` e `Jogo-RPG-TS` (ambos fork, estavam no portfolio antigo como se fossem projeto próprio).
+- Também cortados por serem exercício de 2024 redundante: `app-ecommerce`, `App-React-Farmacia`.
+- O link "Mais em github.com/br1ansouza" no fim da seção cobre o resto sem poluir a lista.
+
 ## O que evitar explicitamente (aprendido com as versões antigas)
 
 Os dois portfolios antigos (`br1ansouza/portfolio`, `br1ansouza/portfolio-v2`) têm
