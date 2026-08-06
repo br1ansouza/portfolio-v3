@@ -94,6 +94,7 @@ Feedback direto do usuário. Estas regras valem pra qualquer texto que apareça 
 - **Nada de frase de efeito genérica.** Foi rejeitado: "nos projetos pessoais é onde testo o que não cabe no dia a dia", "Fora do teclado: trilha, moto e câmera na mão sempre que dá", "essas coisas". Se a frase caberia no portfólio de qualquer outro dev, ela não diz nada.
 - **Fato concreto no lugar de adjetivo.** "rastreamento GPS que continua rodando com a tela bloqueada" vale mais que "aplicações de alto impacto".
 - **A bio não cita projeto pelo nome.** A seção de Projetos já lista. Repetir o nome do app na bio é redundante e lê mal. A bio descreve capacidade, não catálogo.
+- Detalhes do trabalho dele que ainda não estão no site, mas são bons de saber ao escrever texto: monorepo é o padrão do dia a dia, com **submódulos git e module federation**; a pós é **Master DevOps: Engineering & Tech Agile**.
 - Fonte de verdade sobre o que ele faz hoje: o **perfil do GitHub** (github.com/br1ansouza) e os repos recentes. O conteúdo dos portfolios antigos está defasado e subestima ele.
 
 ## Curadoria de projetos
