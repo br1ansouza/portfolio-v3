@@ -25,6 +25,7 @@ validar lá antes de considerar definitivo.
 ## Regras de produto (o que este portfolio é)
 
 - Página única, seções ancoradas (`#hero`, `#sobre`, `#projetos`, `#certificados`, `#contato`), scroll suave via Lenis. Sem roteamento, sem múltiplas páginas.
+- **Sem navbar, sem sidebar, sem footer, sem cabeçalho fixo.** Nenhuma barra persistente por cima do conteúdo — isso é o que dá cara de "cardápio de restaurante". Navegação é só scroll. Se algum dia precisar de indicador de posição, tem que ser discreto (ex: um marcador mínimo), nunca uma barra de navegação tradicional.
 - **Sem seção de Experiência Profissional** — decisão explícita do usuário, não reintroduzir. Formação acadêmica é diferente disso e está em aberto (ver `CONTENT.md`).
 - Idioma único: PT-BR. Sem toggle de idioma (simplificação deliberada em relação às versões anteriores, que tinham PT/EN).
 - Certificados: já existe uma base de 7 certificados extraídos do portfolio antigo (`src/lib/data/certificates.ts`). Novos certificados entram por último, perto do fim do projeto — não travar o resto por causa disso.
