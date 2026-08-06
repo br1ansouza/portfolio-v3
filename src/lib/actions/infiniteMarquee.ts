@@ -4,24 +4,31 @@ import type { Action } from 'svelte/action';
 const LERP = 0.12;
 const WHEEL_SCALE = 1.1;
 
-export const infiniteMarquee: Action<HTMLElement, HTMLElement | undefined> = (
+interface MarqueeOptions {
+  track: HTMLElement | undefined;
+  count: number;
+}
+
+export const infiniteMarquee: Action<HTMLElement, MarqueeOptions> = (
   node,
-  track,
+  options,
 ) => {
+  const track = options.track;
   if (!track) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let offset = 0;
   let target = 0;
-  let half = 0;
+  let period = 0;
   let frame = 0;
 
   function measure() {
-    half = track!.scrollWidth / 2;
+    const second = track!.children[options.count] as HTMLElement | undefined;
+    period = second ? second.offsetLeft : track!.scrollWidth / 2;
   }
 
   function handleWheel(event: WheelEvent) {
-    if (half <= 0) return;
+    if (period <= 0) return;
     event.preventDefault();
     const delta =
       Math.abs(event.deltaX) > Math.abs(event.deltaY)
@@ -32,16 +39,16 @@ export const infiniteMarquee: Action<HTMLElement, HTMLElement | undefined> = (
 
   function tick() {
     frame = requestAnimationFrame(tick);
-    if (half <= 0) return;
+    if (period <= 0) return;
 
     offset += (target - offset) * LERP;
 
-    if (offset > half) {
-      offset -= half;
-      target -= half;
+    if (offset >= period) {
+      offset -= period;
+      target -= period;
     } else if (offset < 0) {
-      offset += half;
-      target += half;
+      offset += period;
+      target += period;
     }
 
     gsap.set(track!, { x: -offset });
