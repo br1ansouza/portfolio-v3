@@ -1,7 +1,10 @@
+export type SocialIconName =
+  'mail' | 'github' | 'linkedin' | 'discord' | 'scrollX';
+
 export interface SocialLink {
   label: string;
   url: string;
-  icon: string;
+  icon: SocialIconName;
 }
 
 export interface TechCategory {
@@ -17,6 +20,8 @@ export interface Project {
   githubUrl: string;
   liveUrl?: string;
   featured: boolean;
+  image?: string;
+  video?: string;
 }
 
 export interface Certificate {
@@ -24,4 +29,11 @@ export interface Certificate {
   institution: string;
   date: string;
   link: string;
+}
+
+export interface Education {
+  course: string;
+  institution: string;
+  period: string;
+  link?: string;
 }

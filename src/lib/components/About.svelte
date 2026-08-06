@@ -1,46 +1,53 @@
 <script lang="ts">
-  import { profile } from '../data/profile';
+  import { profile, education } from '../data/profile';
   import { techCategories } from '../data/skills';
+  import SectionHeading from './SectionHeading.svelte';
 </script>
 
-<section id="sobre" class="about">
-  <h2>Sobre</h2>
+<section id="sobre" class="mx-auto w-full max-w-5xl px-6 py-20">
+  <SectionHeading index="01" title="SOBRE" />
 
-  {#each profile.bio as paragraph (paragraph)}
-    <p>{paragraph}</p>
-  {/each}
+  <div class="grid items-start gap-x-16 gap-y-12 md:grid-cols-[1.1fr_1fr]">
+    <div>
+      <div class="space-y-5 text-lg leading-relaxed text-surface-200">
+        {#each profile.bio as paragraph (paragraph)}
+          <p>{paragraph}</p>
+        {/each}
+      </div>
 
-  <ul class="about__skills">
-    {#each techCategories as category (category.title)}
-      <li>
-        <h3>{category.title}</h3>
-        <p>{category.items.join(' · ')}</p>
-      </li>
-    {/each}
-  </ul>
+      <p class="font-display mt-10 mb-4 text-[8px] tracking-[0.2em] text-primary-500">FORMAÇÃO</p>
+      <ul>
+        {#each education as item (item.course)}
+          <li class="border-t border-surface-700 py-3">
+            {#if item.link}
+              <a class="group block" href={item.link} target="_blank" rel="noopener noreferrer">
+                <span class="block text-surface-100 group-hover:text-primary-500">{item.course}</span>
+                <span class="mt-1 block text-sm text-surface-500">
+                  {item.institution} · {item.period}
+                </span>
+              </a>
+            {:else}
+              <div>
+                <span class="block text-surface-100">{item.course}</span>
+                <span class="mt-1 block text-sm text-surface-500">
+                  {item.institution} · {item.period}
+                </span>
+              </div>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    </div>
+
+    <ul>
+      {#each techCategories as category (category.title)}
+        <li class="border-b border-surface-700 py-4 first:pt-0">
+          <p class="font-display text-[8px] tracking-[0.2em] text-primary-500">
+            {category.title.toUpperCase()}
+          </p>
+          <p class="mt-2 text-surface-300">{category.items.join(' · ')}</p>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </section>
-
-<style>
-  .about {
-    padding: var(--space-6) var(--space-4);
-  }
-
-  .about__skills {
-    list-style: none;
-    margin: var(--space-4) 0 0;
-    padding: 0;
-    display: grid;
-    gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-
-  .about__skills h3 {
-    margin: 0 0 var(--space-1);
-    font-size: 1rem;
-  }
-
-  .about__skills p {
-    margin: 0;
-    color: var(--color-text-muted);
-  }
-</style>
