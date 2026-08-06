@@ -1,35 +1,55 @@
 <script lang="ts">
   import { profile } from '../data/profile';
+  import { letterPush } from '../actions/letterPush';
 </script>
 
-<section id="hero" class="hero">
-  <p class="hero__eyebrow">Portfólio</p>
-  <h1 class="hero__name">{profile.name}</h1>
-  <p class="hero__role">{profile.role}</p>
+<section id="hero" class="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden">
+  <div class="dither" aria-hidden="true"></div>
+
+  <div class="relative z-1 mx-auto w-full max-w-5xl px-6">
+    <p class="font-display text-[8px] tracking-[0.35em] text-primary-500">PORTFOLIO</p>
+
+    <h1
+      class="font-display mt-5 text-[clamp(2rem,9vw,5.5rem)] leading-[1.06] text-surface-50"
+      use:letterPush={profile.name}
+    >{profile.name}</h1>
+
+    <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-surface-300">
+      <span>{profile.role}</span>
+      <span class="text-surface-600">/</span>
+      <span>{profile.location}</span>
+    </div>
+  </div>
+
+  <div
+    class="absolute bottom-8 left-1/2 z-1 -translate-x-1/2 font-display text-[8px] tracking-[0.3em] text-surface-500"
+    aria-hidden="true"
+  >
+    <span class="blink">▼</span>
+  </div>
 </section>
 
 <style>
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 var(--space-4);
+  .dither {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, var(--color-surface-800) 1px, transparent 0);
+    background-size: 4px 4px;
+    mask-image: linear-gradient(to bottom, transparent 35%, black 105%);
   }
 
-  .hero__eyebrow {
-    color: var(--color-accent);
-    margin: 0 0 var(--space-1);
+  .blink {
+    animation: blink 1.4s steps(2, jump-none) infinite;
   }
 
-  .hero__name {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin: 0;
-  }
-
-  .hero__role {
-    color: var(--color-text-muted);
-    font-size: 1.25rem;
+  @keyframes blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0.15;
+    }
   }
 </style>
