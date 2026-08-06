@@ -6,14 +6,14 @@ export const profile = {
   location: 'Florianópolis, BR',
   bio: [
     'Trabalho com React e TypeScript em aplicações escaláveis, integrando APIs REST sobre arquitetura de microsserviços, com testes automatizados em Playwright e ambiente monorepo.',
-    'Também escrevo backend em Ruby on Rails e mobile, tanto híbrido com Capacitor quanto Android nativo em Kotlin. Já resolvi rastreamento GPS em segundo plano, consulta geográfica em PostGIS e funcionamento offline com dados sincronizados depois.',
-    'Curso pós-graduação em DevOps e trabalho com Docker, AWS e Linux.',
+    'Nos meus projetos toco a stack inteira: API em Ruby on Rails com PostGIS e Android, híbrido com Capacitor e nativo em Kotlin. Foi neles que resolvi GPS rodando em segundo plano com a tela bloqueada e mapa funcionando sem rede.',
+    'Curso a pós Master DevOps: Engineering & Tech Agile e trabalho com Docker, AWS e Linux.',
   ],
 };
 
 export const education: Education[] = [
   {
-    course: 'Pós-graduação em DevOps',
+    course: 'Master DevOps: Engineering & Tech Agile',
     institution: 'Em andamento',
     period: '2026',
     link: undefined,
