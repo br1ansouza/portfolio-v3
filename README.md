@@ -32,3 +32,7 @@ npm run format        # prettier --write
 ## Contexto e regras
 
 Ver [`CLAUDE.md`](./CLAUDE.md) (arquitetura e regras do projeto) e [`CONTENT.md`](./CONTENT.md) (rascunho de conteúdo).
+
+## Créditos
+
+Ícones baseados em [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT), de Gerrit Halfmann.

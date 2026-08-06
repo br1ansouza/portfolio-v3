@@ -1,7 +1,9 @@
+export type SocialIconName = 'mail' | 'github' | 'linkedin' | 'discord';
+
 export interface SocialLink {
   label: string;
   url: string;
-  icon: string;
+  icon: SocialIconName;
 }
 
 export interface TechCategory {
