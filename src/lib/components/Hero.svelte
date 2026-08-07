@@ -2,6 +2,7 @@
   import { profile } from '../data/profile';
   import { letterPush } from '../actions/letterPush';
   import DitherField from './DitherField.svelte';
+  import { theme } from '../stores/theme.svelte';
 
   interface Props {
     scroll?: number;
@@ -11,7 +12,7 @@
 </script>
 
 <section id="hero" class="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden">
-  <DitherField {scroll} />
+  <DitherField {scroll} theme={theme.current} />
 
   <div class="relative z-1 mx-auto w-full max-w-5xl px-6">
     <p class="font-display text-[8px] tracking-[0.35em] text-primary-500">PORTFOLIO</p>

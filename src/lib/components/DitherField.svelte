@@ -4,12 +4,19 @@
 
   interface Props {
     scroll?: number;
+    theme?: string;
   }
 
-  let { scroll = 0 }: Props = $props();
+  let { scroll = 0, theme = 'pixel' }: Props = $props();
 
   let canvas: HTMLCanvasElement | undefined = $state();
   let supported = $state(true);
+  let applyTheme: (() => void) | undefined;
+
+  $effect(() => {
+    void theme;
+    applyTheme?.();
+  });
 
   function compile(gl: WebGL2RenderingContext, type: number, source: string) {
     const shader = gl.createShader(type);
@@ -17,6 +24,7 @@
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error('[DitherField] shader nao compilou:', gl.getShaderInfoLog(shader));
       gl.deleteShader(shader);
       return null;
     }
@@ -43,6 +51,7 @@
 
     const gl = canvas.getContext('webgl2', { alpha: true, antialias: false });
     if (!gl) {
+      console.error('[DitherField] WebGL2 indisponivel');
       supported = false;
       return;
     }
@@ -59,6 +68,7 @@
     gl.attachShader(program, fragment);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('[DitherField] link falhou:', gl.getProgramInfoLog(program));
       supported = false;
       return;
     }
@@ -85,10 +95,19 @@
       scroll: gl.getUniformLocation(program, 'uScroll'),
       ink: gl.getUniformLocation(program, 'uInk'),
       accent: gl.getUniformLocation(program, 'uAccent'),
+      strength: gl.getUniformLocation(program, 'uStrength'),
     };
 
-    gl.uniform3fv(uniforms.ink, readColor('--color-surface-700'));
-    gl.uniform3fv(uniforms.accent, readColor('--color-primary-500'));
+    applyTheme = () => {
+      gl.useProgram(program);
+      gl.uniform3fv(uniforms.ink, readColor('--dither-ink'));
+      gl.uniform3fv(uniforms.accent, readColor('--color-primary-500'));
+      const strength = getComputedStyle(document.documentElement)
+        .getPropertyValue('--dither-strength')
+        .trim();
+      gl.uniform1f(uniforms.strength, Number(strength) || 1);
+    };
+    applyTheme();
 
     const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
     let visible = true;

@@ -7,7 +7,7 @@ export const profile = {
   bio: [
     'Trabalho com React e TypeScript em aplicações escaláveis, integrando APIs REST sobre arquitetura de microsserviços, com testes automatizados em Playwright e ambiente monorepo.',
     'Nos meus projetos toco a stack inteira: API em Ruby on Rails com PostGIS e Android, híbrido com Capacitor e nativo em Kotlin. Foi neles que resolvi GPS rodando em segundo plano com a tela bloqueada e mapa funcionando sem rede.',
-    'Curso a pós Master DevOps: Engineering & Tech Agile e trabalho com Docker, AWS e Linux.',
+    'Curso a pós Master DevOps: Engineering & Tech Agile. Pipeline de CI com etapas de lint, análise de segurança e build, e trabalho com Docker, AWS e Linux.',
   ],
 };
 

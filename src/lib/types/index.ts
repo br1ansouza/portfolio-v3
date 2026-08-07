@@ -1,5 +1,7 @@
 export type SocialIconName =
-  'mail' | 'github' | 'linkedin' | 'discord' | 'scrollX';
+  'mail' | 'github' | 'linkedin' | 'discord' | 'scrollX' | 'lampOn' | 'lampOff';
+
+export type ThemeName = 'pixel' | 'pixel-light';
 
 export interface SocialLink {
   label: string;
