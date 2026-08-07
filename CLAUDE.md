@@ -51,7 +51,7 @@ Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `
 - `--color-surface-*`: escala quase-preta levemente fria (`#0a0a0f` a `#eceef2`).
 - `--color-primary-*`: verde terminal (`#2fe08a` no 500). É a única cor de destaque usada — secondary (âmbar) e tertiary (magenta) existem porque o Skeleton exige a escala completa, mas não são usados na UI. Uma cor só de acento é o que mantém "elegante" em vez de "arcade gritado".
 - **`--radius-base` e `--radius-container` são `0`.** Canto reto é a decisão visual mais importante do projeto — canto arredondado + sombra é exatamente a assinatura "template de IA" que este portfolio existe pra evitar. Não reintroduzir.
-- Dark-only, sem toggle — mesmo padrão do Chromix e do TrackRide.
+- Havia decisão de dark-only; foi revertida pelo usuário. Ver a seção "Temas" abaixo.
 
 ## Tipografia
 
@@ -63,6 +63,24 @@ Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `
 ## Scrollbar oculta
 
 A barra de rolagem nativa está escondida em `global.css` (`scrollbar-width: none` + `::-webkit-scrollbar`), a pedido do usuário. O scroll continua funcionando por roda, toque, teclado (setas, PageUp/Down, Home/End) e pelo Lenis. O que se perde é arrastar a barra com o mouse e a noção visual de progresso na página. Se um dia isso incomodar, a saída é um indicador discreto de progresso, nunca trazer a barra padrão de volta.
+
+## Temas (claro e escuro)
+
+Dois temas Skeleton em `src/lib/styles/theme.css`, trocados pelo botão de lâmpada (`ThemeToggle.svelte`) no canto superior direito. Estado em `stores/theme.svelte.ts`, persistido em `localStorage`, com `prefers-color-scheme` como padrão inicial.
+
+- **`pixel`** (escuro): base `#0a0a0f`, acento verde `#2fe08a`.
+- **`pixel-light`** (claro): base `#bcc4cf` (cinza-azulado frio), acento **laranja queimado** `#803505`. O verde não sobrevive a fundo claro; a paleta troca de acento junto com o tema.
+- **A escala é invertida no tema claro**: `surface-950` continua sendo o fundo e `surface-50` o texto, só que com os valores trocados. Todos os componentes seguem funcionando sem trocar uma classe sequer.
+- A transição usa o mesmo dithering Bayer do `pixelReveal`: blocos entram cobrindo a tela, o tema troca no meio, os blocos saem.
+- O shader tem tokens próprios, **não reaproveita `--color-surface-*`**: `--dither-ink` e `--dither-strength` (1 no escuro, 1.55 no claro). Foi assim que consegui reforçar o claro sem mexer no escuro; antes qualquer ajuste afetava os dois.
+- **O shader lê cor uma única vez no mount.** `DitherField` expõe um `applyTheme()` que um `$effect` chama quando o tema muda. Sem isso o campo fica com a cor do tema anterior.
+
+## Erros que eu cometi aqui e não devo repetir
+
+- **Mexer no que não foi pedido.** Ao "suavizar o degradê" eu também elevei a máscara ao quadrado e escureci o alpha, o que apagou o hero no tema escuro. O usuário percebeu na hora. Pedido de ajuste é para ser cirúrgico.
+- **Alterar tom sob pretexto de acessibilidade sem perguntar.** Escureci três cinzas do tema escuro (instituição do certificado, assinatura, "Mais em") para passar no WCAG. Foi rejeitado e revertido. O certo é medir, relatar o número e deixar a decisão com ele.
+- **Medir do lado errado.** Afirmei que o dev server estava no ar porque o `curl` respondia dentro do WSL, enquanto o navegador do Windows recebia `ERR_CONNECTION_RESET`. Precisa de `server.host: '0.0.0.0'` e teste com `curl.exe` do Windows.
+- **Testar com estado sujo.** Medi contraste do "tema claro" com o `localStorage` já em `pixel-light`, então meu clique levava para o escuro e eu media o tema errado. Forçar o estado (`addInitScript`) antes de medir.
 
 ## Ícones
 
@@ -177,10 +195,12 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 - 2026-08-06: repositório criado; casca (Rsbuild + Svelte 5 + TS), navbar/footer removidos, ícones pixelarticons.
 - 2026-08-06 (mesma sessão, depois): Tailwind 4 + Skeleton 5 adotados, tema `pixel` customizado, Silkscreen self-hospedada, as 5 seções construídas e os 3 efeitos assinatura implementados. Validado por screenshot em headless: sem erro de console, hover de inversão funcionando, fonte pixel crispa.
 
+**BUG EM ABERTO (prioridade ao retomar):** o campo do shader **não renderiza na máquina do usuário** (Brave, Windows, GPU real), embora renderize no teste headless com SwiftShader e o console não acuse erro de compilação nem de link. Já foi feito: troca da indexação dinâmica de array `const` no shader por Bayer aritmético (risco conhecido de portabilidade de driver) e log de erro de compilação/link. **Falta o retorno do diagnóstico** (tamanho do buffer do canvas, `isContextLost`, GPU) que foi pedido ao usuário. Suspeitas em ordem: canvas com buffer 0x0, contexto WebGL perdido após muitos ciclos de HMR, ou diferença de driver. Não sair chutando correção sem esse dado.
+
 **Pendente:**
 
 - Foto de perfil: já copiada pra `src/lib/images/profile.jpg` (320px), mas **ainda não usada em lugar nenhum** — decidir se entra no Sobre.
 - API de Gestão e Simulador RPG não têm screenshot (só logo no portfolio antigo), então não têm preview no hover. Ou gerar uma imagem, ou aceitar a assimetria.
-- Novos certificados (usuário adiciona no fim — não é bloqueio).
+- **Idioma inglês como padrão** (adiado para 2026-08-07). Falta decidir: inglês para todos ou detectar navegador; ícone de idioma abaixo do de tema. Isso reverte a decisão de "idioma único PT-BR" registrada acima.
 - Decisões abertas do `CONTENT.md` (curadoria de projeto, formação acadêmica, deploy, visibilidade do repo).
 - Espaço morto embaixo da coluna de bio no Sobre quando o texto é curto — cosmético, não resolvido.

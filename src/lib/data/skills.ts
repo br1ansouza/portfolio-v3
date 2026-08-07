@@ -11,5 +11,8 @@ export const techCategories: TechCategory[] = [
     items: ['Kotlin', 'Jetpack Compose', 'Capacitor', 'React Native'],
   },
   { title: 'Testes', items: ['Playwright'] },
-  { title: 'DevOps', items: ['Docker', 'AWS', 'Linux', 'Git'] },
+  {
+    title: 'DevOps',
+    items: ['Docker', 'AWS', 'Linux', 'GitHub Actions', 'CI/CD'],
+  },
 ];

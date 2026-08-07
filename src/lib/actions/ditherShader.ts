@@ -13,16 +13,11 @@ uniform vec2 uPointer;
 uniform float uScroll;
 uniform vec3 uInk;
 uniform vec3 uAccent;
+uniform float uStrength;
 
 out vec4 fragColor;
 
 const float PIXEL = 3.0;
-const float BAYER[16] = float[16](
-  0.0,  8.0,  2.0, 10.0,
-  12.0, 4.0, 14.0,  6.0,
-  3.0, 11.0,  1.0,  9.0,
-  15.0, 7.0, 13.0,  5.0
-);
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -50,10 +45,14 @@ float terrain(vec2 p) {
   return total;
 }
 
+float bayer2(vec2 cell) {
+  cell = floor(cell);
+  return fract(cell.x * 0.5 + cell.y * cell.y * 0.75);
+}
+
 float bayerThreshold(vec2 block) {
-  int x = int(mod(block.x, 4.0));
-  int y = int(mod(block.y, 4.0));
-  return BAYER[y * 4 + x] / 16.0;
+  float value = bayer2(block * 0.5) * 0.25 + bayer2(block);
+  return value * 0.9375 + 0.03125;
 }
 
 void main() {
@@ -72,9 +71,11 @@ void main() {
   float contour = smoothstep(0.44, 0.5, rings) * smoothstep(0.56, 0.5, rings);
 
   float glow = smoothstep(0.5, 0.0, length(toPointer));
-  float intensity = contour * (0.42 + glow * 1.1);
+  float intensity = contour * (0.42 + glow * 1.1) * uStrength;
 
-  float verticalFade = smoothstep(-0.6, 0.5, uv.y);
+  float bottomFade = smoothstep(-0.5, 0.02, uv.y);
+  float topFade = smoothstep(0.5, 0.32, uv.y);
+  float verticalFade = bottomFade * mix(0.75, 1.0, topFade);
   float aspect = uResolution.x / uResolution.y;
   vec2 textCenter = vec2(-0.22 * aspect, -0.03);
   float textMask = smoothstep(0.18, 0.66, length((uv - textCenter) * vec2(0.58, 1.05)));
@@ -83,5 +84,5 @@ void main() {
   float lit = step(bayerThreshold(block), intensity);
   vec3 color = mix(uInk, uAccent, lit * (0.35 + glow * 0.65));
 
-  fragColor = vec4(color, lit * (0.5 + glow * 0.5));
+  fragColor = vec4(color, lit * (0.5 + glow * 0.5) * uStrength);
 }`;

@@ -3,6 +3,7 @@
   import { startSmoothScroll, stopSmoothScroll } from './lib/actions/smoothScroll';
   import type { VelocityListener } from './lib/actions/smoothScroll';
   import Scanlines from './lib/components/Scanlines.svelte';
+  import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import Hero from './lib/components/Hero.svelte';
   import About from './lib/components/About.svelte';
   import Projects from './lib/components/Projects.svelte';
@@ -25,6 +26,8 @@
     stopSmoothScroll();
   });
 </script>
+
+<ThemeToggle />
 
 <Scanlines intensity={scrollIntensity} />
 

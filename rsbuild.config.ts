@@ -5,6 +5,9 @@ import { pluginTailwindcss } from '@rsbuild/plugin-tailwindcss';
 // Docs: https://rsbuild.rs/config/
 export default defineConfig({
   plugins: [pluginSvelte(), pluginTailwindcss()],
+  server: {
+    host: '0.0.0.0',
+  },
   html: {
     template: './index.html',
     title: 'Brian Souza — Portfolio',
