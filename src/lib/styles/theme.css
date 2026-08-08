@@ -202,7 +202,7 @@
 
 [data-theme='pixel-light'] {
   --dither-ink: #5c6675;
-  --dither-strength: 1.55;
+  --dither-strength: 1.15;
   --spacing: 0.25rem;
   --text-scaling: 1.067;
 
