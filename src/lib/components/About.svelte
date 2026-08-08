@@ -28,7 +28,7 @@
         {/each}
       </ul>
 
-      <p class="font-display mt-10 mb-4 text-[8px] tracking-[0.2em] text-primary-500">
+      <p class="font-display mt-16 mb-4 text-[8px] tracking-[0.2em] text-primary-500">
         {t(ui.educationLabel)}
       </p>
       <ul>
