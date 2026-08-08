@@ -13,4 +13,6 @@ export const iconPaths: Record<SocialIconName, string> = {
     'M9 3h6v2H9zM7 5h2v2H7zm8 0h2v2h-2zm-8 8h2v2H7zm8 0h2v2h-2zM5 7h2v6H5zm12 0h2v6h-2zm-8 8h6v2H9zm0 4h6v2H9zm0-2h2v2H9zm4 0h2v2h-2z',
   scrollX:
     'M10 15v2H8v-2h2Zm6 2h-2v-2h2v2Zm-8-2H6v-2h2v2Zm10 0h-2v-2h2v2ZM6 13H4v-2h2v2Zm14 0h-2v-2h2v2ZM8 11H6V9h2v2Zm10 0h-2V9h2v2Zm-8-2H8V7h2v2Zm6 0h-2V7h2v2Z',
+  flagEn: 'M4 2h2v20H4zM6 4h14v2H6zm0 2h4v2H6zm0 2h14v2H6z',
+  flagPt: 'M4 2h2v20H4zM6 4h14v2H6zm0 4h14v2H6zm12-2h2v2h-2zm-6 0h2v2h-2z',
 };

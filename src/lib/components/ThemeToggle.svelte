@@ -1,15 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import gsap from 'gsap';
   import { theme } from '../stores/theme.svelte';
-  import { bayerOrder } from '../actions/bayer';
+  import { t } from '../stores/language.svelte';
+  import { ui } from '../data/ui';
+  import { ditherWipe } from '../actions/ditherWipe';
   import Icon from './Icon.svelte';
   import type { ThemeName } from '../types';
-
-  const COLUMNS = 28;
-  const ROWS = 16;
-  const TOTAL = COLUMNS * ROWS;
-  const HALF = 0.42;
 
   let busy = $state(false);
 
@@ -26,7 +22,7 @@
     return color;
   }
 
-  function handleToggle() {
+  async function handleToggle() {
     if (busy) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -36,84 +32,17 @@
 
     busy = true;
     const target: ThemeName = theme.current === 'pixel' ? 'pixel-light' : 'pixel';
-
-    const overlay = document.createElement('div');
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.style.cssText = [
-      'position:fixed',
-      'inset:0',
-      'z-index:80',
-      'display:grid',
-      'pointer-events:none',
-      `grid-template-columns:repeat(${COLUMNS},1fr)`,
-      `grid-template-rows:repeat(${ROWS},1fr)`,
-    ].join(';');
-
-    const background = incomingBackground(target);
-    const blocks: HTMLElement[] = [];
-    for (let i = 0; i < TOTAL; i += 1) {
-      const block = document.createElement('span');
-      block.style.cssText = `background:${background};opacity:0`;
-      overlay.appendChild(block);
-      blocks.push(block);
-    }
-    document.body.appendChild(overlay);
-
-    const order = bayerOrder(COLUMNS, ROWS);
-    const stagger = (index: number) => (order[index] / TOTAL) * HALF;
-
-    gsap.to(blocks, {
-      opacity: 1,
-      duration: 0.01,
-      ease: 'none',
-      stagger,
-      onComplete: () => {
-        theme.toggle();
-        gsap.to(blocks, {
-          opacity: 0,
-          duration: 0.01,
-          ease: 'none',
-          stagger,
-          onComplete: () => {
-            overlay.remove();
-            busy = false;
-          },
-        });
-      },
-    });
+    await ditherWipe(incomingBackground(target), () => theme.toggle());
+    busy = false;
   }
 </script>
 
 <button
-  class="toggle"
+  class="corner-button"
   type="button"
   onclick={handleToggle}
-  aria-label={theme.current === 'pixel' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+  aria-label={theme.current === 'pixel' ? t(ui.themeToLight) : t(ui.themeToDark)}
   aria-pressed={theme.current === 'pixel-light'}
 >
   <Icon name={theme.current === 'pixel' ? 'lampOff' : 'lampOn'} size={16} />
 </button>
-
-<style>
-  .toggle {
-    position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
-    z-index: 70;
-    display: inline-flex;
-    padding: 0.6rem;
-    border: 1px solid var(--color-surface-700);
-    background: color-mix(in srgb, var(--color-surface-950) 80%, transparent);
-    color: var(--color-surface-400);
-    cursor: pointer;
-    transition:
-      color 150ms steps(3, jump-none),
-      border-color 150ms steps(3, jump-none);
-  }
-
-  .toggle:hover,
-  .toggle:focus-visible {
-    color: var(--color-primary-500);
-    border-color: var(--color-primary-500);
-  }
-</style>
