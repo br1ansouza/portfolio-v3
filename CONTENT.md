@@ -16,10 +16,11 @@ ainda não está aprovado. Edite aqui ou direto no código, o que for mais fáci
 
 ## Contato
 
-- E-mail: briandesouza1597@gmail.com
 - LinkedIn: linkedin.com/in/brian-souza
 - GitHub: github.com/br1ansouza
 - Discord: br1ansouza
+
+**Sem e-mail no site** (decisão de 2026-08-08). O contato é só por essas três plataformas. Não reintroduzir o botão de copiar e-mail.
 
 ## Formação acadêmica (estava no Resumo do portfolio v1 — não é experiência profissional)
 

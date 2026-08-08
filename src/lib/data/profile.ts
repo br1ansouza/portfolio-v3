@@ -62,11 +62,6 @@ export const education: Education[] = [
 
 export const socialLinks: SocialLink[] = [
   {
-    label: { en: 'Email', pt: 'E-mail' },
-    url: 'mailto:briandesouza1597@gmail.com',
-    icon: 'mail',
-  },
-  {
     label: { en: 'LinkedIn', pt: 'LinkedIn' },
     url: 'https://www.linkedin.com/in/brian-souza/',
     icon: 'linkedin',
