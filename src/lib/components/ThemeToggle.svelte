@@ -1,12 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { theme } from '../stores/theme.svelte';
   import { t } from '../stores/language.svelte';
   import { ui } from '../data/ui';
   import { runThemeToggle } from '../actions/themeTransition';
   import Icon from './Icon.svelte';
-
-  onMount(() => theme.init());
 </script>
 
 <button
