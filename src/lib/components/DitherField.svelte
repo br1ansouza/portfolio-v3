@@ -1,17 +1,27 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { VERTEX_SOURCE, FRAGMENT_SOURCE } from '../actions/ditherShader';
+  import { sphereLayout, sphereRect, HIDDEN } from '../actions/heroSphere';
+  import type { SphereRect } from '../actions/heroSphere';
 
   interface Props {
     scroll?: number;
     theme?: string;
+    hovered?: boolean;
+    onSphere?: (rect: SphereRect) => void;
   }
 
-  let { scroll = 0, theme = 'pixel' }: Props = $props();
+  let { scroll = 0, theme = 'pixel', hovered = false, onSphere }: Props = $props();
 
   let canvas: HTMLCanvasElement | undefined = $state();
   let supported = $state(true);
   let applyTheme: (() => void) | undefined;
+  let pulseValue = 0;
+  let hoverValue = 0;
+
+  export function pulse() {
+    pulseValue = 1;
+  }
 
   $effect(() => {
     void theme;
@@ -46,6 +56,7 @@
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       supported = false;
+      onSphere?.(HIDDEN);
       return;
     }
 
@@ -53,6 +64,7 @@
     if (!gl) {
       console.error('[DitherField] WebGL2 indisponivel');
       supported = false;
+      onSphere?.(HIDDEN);
       return;
     }
 
@@ -96,12 +108,17 @@
       ink: gl.getUniformLocation(program, 'uInk'),
       accent: gl.getUniformLocation(program, 'uAccent'),
       strength: gl.getUniformLocation(program, 'uStrength'),
+      sphere: gl.getUniformLocation(program, 'uSphere'),
+      pulse: gl.getUniformLocation(program, 'uPulse'),
+      hover: gl.getUniformLocation(program, 'uHover'),
+      hot: gl.getUniformLocation(program, 'uHot'),
     };
 
     applyTheme = () => {
       gl.useProgram(program);
       gl.uniform3fv(uniforms.ink, readColor('--dither-ink'));
       gl.uniform3fv(uniforms.accent, readColor('--color-primary-500'));
+      gl.uniform3fv(uniforms.hot, readColor('--color-surface-50'));
       const strength = getComputedStyle(document.documentElement)
         .getPropertyValue('--dither-strength')
         .trim();
@@ -116,10 +133,16 @@
     function resize() {
       if (!canvas || !gl) return;
       const ratio = Math.min(window.devicePixelRatio, 1.5);
-      canvas.width = Math.floor(canvas.clientWidth * ratio);
-      canvas.height = Math.floor(canvas.clientHeight * ratio);
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+
+      const layout = sphereLayout(width, height);
+      gl.uniform3f(uniforms.sphere, layout.centerX, layout.centerY, layout.radius);
+      onSphere?.(sphereRect(layout, width, height));
     }
 
     function handlePointer(event: PointerEvent) {
@@ -134,9 +157,13 @@
       if (!visible || !gl) return;
       pointer.x += (pointer.targetX - pointer.x) * 0.06;
       pointer.y += (pointer.targetY - pointer.y) * 0.06;
+      pulseValue = Math.max(0, pulseValue - 0.018);
+      hoverValue += ((hovered ? 1 : 0) - hoverValue) * 0.12;
       gl.uniform1f(uniforms.time, now / 1000);
       gl.uniform2f(uniforms.pointer, pointer.x, pointer.y);
       gl.uniform1f(uniforms.scroll, scroll);
+      gl.uniform1f(uniforms.pulse, Math.round(pulseValue * 5) / 5);
+      gl.uniform1f(uniforms.hover, Math.round(hoverValue * 5) / 5);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
 
