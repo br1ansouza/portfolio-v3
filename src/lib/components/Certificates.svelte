@@ -106,6 +106,7 @@
 
   .card__year {
     font-family: var(--font-display);
+    font-weight: var(--font-display-weight);
     font-size: 16px;
     color: var(--card-year);
   }

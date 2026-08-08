@@ -78,10 +78,12 @@ Site bilíngue com **inglês como padrão para todo mundo**, sem detecção de n
 
 ## Temas (claro e escuro)
 
-Dois temas Skeleton em `src/lib/styles/theme.css`, trocados pelo botão de lâmpada (`ThemeToggle.svelte`) no canto superior direito. Estado em `stores/theme.svelte.ts`, persistido em `localStorage`, com `prefers-color-scheme` como padrão inicial.
+Dois temas Skeleton em `src/lib/styles/theme.css`. **A troca é pela esfera do hero**; o botão de lâmpada só aparece quando a esfera não existe (largura abaixo de 760px, `prefers-reduced-motion`, sem WebGL2), senão quem está fora desses casos fica sem nenhuma forma de trocar o tema. Quem manda nisso é o `sphereAvailable` no `App.svelte`, alimentado pelo callback do `Hero`. Por isso `theme.init()` e `language.init()` moraram pro corpo do script do `App.svelte`: não podem depender de um componente que às vezes não monta. Estado em `stores/theme.svelte.ts`, persistido em `localStorage`, com `prefers-color-scheme` como padrão inicial.
 
-- **`pixel`** (escuro): base `#0a0a0f`, acento verde `#2fe08a`.
-- **`pixel-light`** (claro): base `#bcc4cf` (cinza-azulado frio), acento **laranja queimado** `#803505`. O verde não sobrevive a fundo claro; a paleta troca de acento junto com o tema.
+- **`pixel`** (escuro): base `#0a0a0f`, acento verde `#2fe08a`. É o padrão e **não deve ser alterado ao mexer no claro**.
+- **`pixel-light`** (claro): base `#eceef2`, acento laranja `#9a3b06`. O verde não sobrevive a fundo claro; a paleta troca de acento junto com o tema.
+- **A primeira versão do claro usava base `#bcc4cf` e acento `#803505` e foi rejeitada por ilegibilidade.** O problema principal era o fundo, não o acento: só trocando o cinza-azulado por um cinza claro de verdade, o mesmo laranja sobe de 4,91 pra 7,44 de contraste. Hoje todos os pares que a UI realmente usa passam de 4,5 (o pior é a assinatura em `surface-600`, com 4,73).
+- **Texto pixel em fundo claro precisa de peso 700.** O mesmo traço fino que "estoura" e fica legível em claro sobre escuro some em escuro sobre claro, principalmente nos labels de 8px. Isso é compensação óptica, não acessibilidade: o contraste já passava. Resolvido pelo token `--font-display-weight` (400 no escuro, 700 no claro), aplicado em `.font-display` no `global.css` e repetido nos poucos blocos `<style>` que usam `var(--font-display)` direto (`Certificates`, `Contact`, `LanguageToggle`). A Silkscreen 700 já estava empacotada.
 - **A escala é invertida no tema claro**: `surface-950` continua sendo o fundo e `surface-50` o texto, só que com os valores trocados. Todos os componentes seguem funcionando sem trocar uma classe sequer.
 - A transição usa o mesmo dithering Bayer do `pixelReveal`: blocos entram cobrindo a tela, o tema troca no meio, os blocos saem.
 - O shader tem tokens próprios, **não reaproveita `--color-surface-*`**: `--dither-ink` e `--dither-strength` (1 no escuro, 1.55 no claro). Foi assim que consegui reforçar o claro sem mexer no escuro; antes qualquer ajuste afetava os dois.
