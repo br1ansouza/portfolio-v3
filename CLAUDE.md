@@ -26,7 +26,7 @@ validar lá antes de considerar definitivo.
 - Página única, seções ancoradas (`#hero`, `#sobre`, `#projetos`, `#certificados`, `#contato`), scroll suave via Lenis. Sem roteamento, sem múltiplas páginas.
 - **Sem navbar, sem sidebar, sem footer, sem cabeçalho fixo.** Nenhuma barra persistente por cima do conteúdo — isso é o que dá cara de "cardápio de restaurante". Navegação é só scroll. Se algum dia precisar de indicador de posição, tem que ser discreto (ex: um marcador mínimo), nunca uma barra de navegação tradicional.
 - **Sem seção de Experiência Profissional** — decisão explícita do usuário, não reintroduzir. Formação acadêmica é diferente disso e está em aberto (ver `CONTENT.md`).
-- Idioma único: PT-BR. Sem toggle de idioma (simplificação deliberada em relação às versões anteriores, que tinham PT/EN).
+- Bilíngue EN/PT com **inglês como padrão** (ver a seção "Idioma" abaixo). Reverte a decisão anterior de idioma único PT-BR.
 - Certificados: já existe uma base de 7 certificados extraídos do portfolio antigo (`src/lib/data/certificates.ts`). Novos certificados entram por último, perto do fim do projeto — não travar o resto por causa disso.
 - **Princípio central: compacto.** Sem tela sobrando, sem textão animado, sem seção decorativa só pra preencher espaço. Se uma seção não agrega, corta.
 
@@ -63,6 +63,18 @@ Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `
 ## Scrollbar oculta
 
 A barra de rolagem nativa está escondida em `global.css` (`scrollbar-width: none` + `::-webkit-scrollbar`), a pedido do usuário. O scroll continua funcionando por roda, toque, teclado (setas, PageUp/Down, Home/End) e pelo Lenis. O que se perde é arrastar a barra com o mouse e a noção visual de progresso na página. Se um dia isso incomodar, a saída é um indicador discreto de progresso, nunca trazer a barra padrão de volta.
+
+## Idioma (EN/PT)
+
+Site bilíngue com **inglês como padrão para todo mundo**, sem detecção de navegador. Botão logo abaixo do de tema alterna para português. Estado em `stores/language.svelte.ts`, persistido em `localStorage`, e o `lang` do `<html>` acompanha.
+
+- Todo texto de conteúdo é `Localized = Record<Language, string>` dentro dos próprios arquivos de `lib/data/`. Não existe arquivo de tradução separado: a versão EN e a PT ficam lado a lado no mesmo objeto, então acrescentar um projeto ou certificado obriga a escrever as duas.
+- Strings de interface (títulos de seção, "COPIAR", "Mais em") ficam em `lib/data/ui.ts`.
+- Componente lê com o helper `t()` de `stores/language.svelte`. Como `language.current` é `$state`, o template reavalia sozinho na troca.
+- **O botão mostra o idioma de destino, não o atual** (mesma lógica do botão de tema, que mostra a lâmpada do tema que vai entrar).
+- **Bandeira foi tentada e descartada.** Em 24x24 com blocos de 2px não há resolução pra diferenciar a bandeira do Brasil da dos EUA: as duas viram um retângulo com um risco. O botão usa o código de duas letras em Silkscreen 16px, que é legível e já é a linguagem do site.
+- A troca usa o mesmo `ditherWipe` do tema (extraído pra `actions/ditherWipe.ts` justamente pra os dois botões compartilharem).
+- As regras de escrita valem igual em inglês: sem travessão no meio de frase, fato concreto no lugar de adjetivo, bio não cita projeto pelo nome.
 
 ## Temas (claro e escuro)
 
@@ -107,6 +119,7 @@ Todos falam a mesma língua: **um display CRT/retrô resolvendo uma imagem**. Co
    - **Por que não react-three-fiber / Three.js**: pedido do usuário, avaliado e recusado. Three.js pesa ~600 KB contra ~6 KB deste shader; r3f é React; e portfólio com blob 3D flutuante virou o clichê que este projeto existe pra evitar. O shader ditherizado é raro na web e casa com a linguagem do site.
    - Cor lida em runtime dos tokens do tema (`--color-surface-700`, `--color-primary-500`), então trocar a paleta troca o shader junto.
    - Máscara elíptica em volta do bloco de texto derruba a intensidade pra 12%: sem isso as curvas passam por cima do nome e matam a legibilidade.
+   - **O `bottomFade` precisa terminar antes de `uv.y = -0.5`**, que é a borda de baixo da tela. Com o valor original (`smoothstep(-0.5, 0.02, uv.y)`) a metade inferior inteira ia apagando e sobrava uma faixa morta de uns 100px acima do indicador de scroll. Hoje é `smoothstep(-0.55, -0.28, uv.y)`: o campo chega no fim do hero e só suaviza na última fatia.
    - Pausa via `IntersectionObserver` quando sai da viewport, DPR limitado a 1.5, e desliga inteiro em `prefers-reduced-motion` ou se não houver WebGL2 (fallback: fundo liso, nada quebra).
 4. **Preview de projeto** (`ProjectPreview.svelte`) — ao passar o mouse na linha, aparece o app rodando. **`<video>` WebM em vez de GIF**: os GIFs dos READMEs têm 3,9 MB e 7,8 MB, contra 78 KB e 113 KB dos WebM equivalentes, com imagem melhor. Projeto sem vídeo cai pro screenshot estático. Ancorado na direita seguindo só a vertical (seguir nos dois eixos tapava o texto), movimento em `steps(5)`, e `image-rendering: pixelated`.
    - Os vídeos só são baixados quando o elemento entra em cena, ou seja, no hover. O carregamento inicial continua sendo apenas JS + CSS + fonte.
@@ -194,13 +207,11 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 
 - 2026-08-06: repositório criado; casca (Rsbuild + Svelte 5 + TS), navbar/footer removidos, ícones pixelarticons.
 - 2026-08-06 (mesma sessão, depois): Tailwind 4 + Skeleton 5 adotados, tema `pixel` customizado, Silkscreen self-hospedada, as 5 seções construídas e os 3 efeitos assinatura implementados. Validado por screenshot em headless: sem erro de console, hover de inversão funcionando, fonte pixel crispa.
+- 2026-08-08: site bilíngue EN/PT com inglês padrão, campo do shader estendido até o fim do hero, colunas do Sobre reequilibradas, `ProjectCard` morto e `profile.jpg` removidos. **A foto de perfil está fora do site por decisão explícita do usuário ("não quero foto ou imagem minha"), não é pendência.**
 
-**BUG EM ABERTO (prioridade ao retomar):** o campo do shader **não renderiza na máquina do usuário** (Brave, Windows, GPU real), embora renderize no teste headless com SwiftShader e o console não acuse erro de compilação nem de link. Já foi feito: troca da indexação dinâmica de array `const` no shader por Bayer aritmético (risco conhecido de portabilidade de driver) e log de erro de compilação/link. **Falta o retorno do diagnóstico** (tamanho do buffer do canvas, `isContextLost`, GPU) que foi pedido ao usuário. Suspeitas em ordem: canvas com buffer 0x0, contexto WebGL perdido após muitos ciclos de HMR, ou diferença de driver. Não sair chutando correção sem esse dado.
+**BUG RESOLVIDO:** o campo do shader não renderizava na máquina do usuário (Brave, Windows, GPU real). Screenshot dele em 2026-08-08 mostra o campo no ar. O que estava no caminho era a indexação dinâmica de array `const` no shader, trocada por Bayer aritmético.
 
 **Pendente:**
 
-- Foto de perfil: já copiada pra `src/lib/images/profile.jpg` (320px), mas **ainda não usada em lugar nenhum** — decidir se entra no Sobre.
 - API de Gestão e Simulador RPG não têm screenshot (só logo no portfolio antigo), então não têm preview no hover. Ou gerar uma imagem, ou aceitar a assimetria.
-- **Idioma inglês como padrão** (adiado para 2026-08-07). Falta decidir: inglês para todos ou detectar navegador; ícone de idioma abaixo do de tema. Isso reverte a decisão de "idioma único PT-BR" registrada acima.
-- Decisões abertas do `CONTENT.md` (curadoria de projeto, formação acadêmica, deploy, visibilidade do repo).
-- Espaço morto embaixo da coluna de bio no Sobre quando o texto é curto — cosmético, não resolvido.
+- Decisões abertas do `CONTENT.md` (deploy e visibilidade do repo continuam em aberto; idioma, foto e curadoria já fechados).
