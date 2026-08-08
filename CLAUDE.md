@@ -98,7 +98,7 @@ Dois temas Skeleton em `src/lib/styles/theme.css`, trocados pelo botão de lâmp
 
 - Lib escolhida: [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT, ~900 ícones pixel art). Não instalado como dependência — só os `path` SVG usados foram extraídos manualmente pra `src/lib/data/icons.ts` (projeto é pequeno demais pra justificar o pacote inteiro, que também não tem build pra Svelte, só React/Vue/webfont).
 - **Ícone de marca (GitHub/LinkedIn/Discord) não usa o logo oficial** — usa um ícone genérico pixel art (`terminal`, `briefcase`, `message`) com o label ao lado identificando a plataforma. Dois motivos: (1) o logo oficial tem curva suave, quebraria a linguagem 100% pixel/blocada do resto do site; (2) `linkedin.svg` nem existe mais no principal banco de logos open source (`simple-icons`) por pedido de takedown — mais simples nem depender disso.
-- Créditos do pacote em `README.md`.
+- Créditos do pacote em `THIRD-PARTY.md`, junto com a licença da Silkscreen. **Não apagar esse arquivo**: a MIT do pixelarticons e a OFL da Silkscreen exigem que o aviso viaje junto com o que é distribuído, e o README não guarda mais isso.
 
 ## UI: Tailwind 4 + Skeleton 5
 

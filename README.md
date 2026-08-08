@@ -22,25 +22,4 @@ Terceira tentativa de portfólio. As duas anteriores morreram do mesmo jeito: in
 
 Svelte 5 (runes), Rsbuild, Tailwind 4 + Skeleton 5, GSAP + Lenis, TypeScript 6. Bilíngue EN/PT, tema claro e escuro.
 
-## Rodando
-
-```bash
-npm install
-npm run dev     # http://localhost:3000
-```
-
-```bash
-npm run build    # build de produção
-npm run check    # svelte-check
-npm run lint     # eslint
-npm run format   # prettier --write
-```
-
-## Contexto
-
-[`CLAUDE.md`](./CLAUDE.md) tem arquitetura, decisões de design, os efeitos de animação e as armadilhas que já custaram caro. [`CONTENT.md`](./CONTENT.md) tem o conteúdo e as decisões em aberto.
-
-## Créditos
-
-Ícones baseados em [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT), de Gerrit Halfmann.
-Fonte [Silkscreen](https://fonts.google.com/specimen/Silkscreen) (OFL), de Jason Kottke.
+Atribuições de terceiros em [`THIRD-PARTY.md`](./THIRD-PARTY.md).
