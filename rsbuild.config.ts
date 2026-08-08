@@ -8,11 +8,20 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
   },
+  output: {
+    assetPrefix: process.env.PAGES_BASE ?? '/',
+  },
   html: {
     template: './index.html',
+    favicon: './public/favicon.png',
     title: 'Brian Souza — Portfolio',
     meta: {
-      description: 'Portfólio pessoal de Brian Souza, desenvolvedor front-end.',
+      description:
+        'Front-end and mobile developer in Florianópolis. Single page portfolio with pixel art styling and a WebGL topographic field.',
+      'og:title': 'Brian Souza — Portfolio',
+      'og:description':
+        'Front-end and mobile developer in Florianópolis. Single page portfolio with pixel art styling and a WebGL topographic field.',
+      'og:type': 'website',
     },
   },
 });

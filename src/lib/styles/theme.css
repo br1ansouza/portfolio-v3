@@ -1,7 +1,7 @@
 [data-theme='pixel'] {
   --dither-ink: #2b2b34;
   --dither-strength: 1;
-  --font-display-weight: 400;
+  --display-emboss: none;
   --spacing: 0.25rem;
   --text-scaling: 1.067;
 
@@ -204,7 +204,7 @@
 [data-theme='pixel-light'] {
   --dither-ink: #97a0ad;
   --dither-strength: 1.15;
-  --font-display-weight: 700;
+  --display-emboss: 1px 0 0 currentColor;
   --spacing: 0.25rem;
   --text-scaling: 1.067;
 

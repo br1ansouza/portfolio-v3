@@ -82,7 +82,7 @@
   .signature {
     margin-top: 4rem;
     font-family: var(--font-display);
-    font-weight: var(--font-display-weight);
+    text-shadow: var(--display-emboss);
     font-size: 8px;
     letter-spacing: 0.25em;
     color: var(--color-surface-600);
