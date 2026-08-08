@@ -57,6 +57,12 @@ Dois temas Skeleton customizados em `src/lib/styles/theme.css`, alternados por u
 
 A escala do Skeleton é **invertida no tema claro**: `surface-950` continua sendo o fundo e `surface-50` continua sendo o texto, só que com os valores trocados. Isso mantém todos os componentes funcionando sem nenhuma alteração de classe.
 
+## Idioma
+
+Inglês por padrão, português a um clique no botão abaixo do de tema, que roda a mesma transição ditherizada. Não há detecção de navegador nem arquivo de tradução separado: cada texto é um `{ en, pt }` dentro do próprio arquivo de dados, então acrescentar um projeto obriga a escrever as duas versões.
+
+O botão mostra o idioma de destino em Silkscreen, não uma bandeira. Em 24x24 com blocos de 2px a bandeira do Brasil e a dos EUA viram o mesmo retângulo com um risco.
+
 ## Estrutura
 
 ```

@@ -1,6 +1,8 @@
 <script lang="ts">
   import { projects } from '../data/projects';
+  import { ui } from '../data/ui';
   import type { Project } from '../types';
+  import { t } from '../stores/language.svelte';
   import { pixelReveal } from '../actions/pixelReveal';
   import SectionHeading from './SectionHeading.svelte';
   import ProjectPreview from './ProjectPreview.svelte';
@@ -11,7 +13,7 @@
 <ProjectPreview image={hovered?.image} video={hovered?.video} />
 
 <section id="projetos" class="mx-auto w-full max-w-5xl px-6 py-20">
-  <SectionHeading index="02" title="PROJETOS" />
+  <SectionHeading index="02" title={t(ui.projectsTitle)} />
 
   <ul use:pixelReveal={{ columns: 20, rows: 12, duration: 1 }}>
     {#each projects as project, index (project.slug)}
@@ -35,10 +37,10 @@
 
           <span class="min-w-0">
             <span class="font-display block text-[16px] text-surface-50 group-hover:text-surface-950">
-              {project.title}
+              {t(project.title)}
             </span>
             <span class="mt-2 block text-surface-400 group-hover:text-surface-900">
-              {project.description}
+              {t(project.description)}
             </span>
             <span class="mt-3 block font-mono text-xs text-surface-500 group-hover:text-surface-800">
               {project.technologies.join('  ')}
@@ -57,7 +59,8 @@
   </ul>
 
   <p class="mt-6 px-3 text-sm text-surface-500">
-    Mais em <a
+    {t(ui.projectsMore)}
+    <a
       class="text-primary-500 underline-offset-4 hover:underline"
       href="https://github.com/br1ansouza"
       target="_blank"

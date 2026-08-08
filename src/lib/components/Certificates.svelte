@@ -1,5 +1,7 @@
 <script lang="ts">
   import { certificates } from '../data/certificates';
+  import { ui } from '../data/ui';
+  import { t } from '../stores/language.svelte';
   import { infiniteMarquee } from '../actions/infiniteMarquee';
   import SectionHeading from './SectionHeading.svelte';
   import Icon from './Icon.svelte';
@@ -12,8 +14,8 @@
 
 <section id="certificados" class="py-20">
   <div class="mx-auto flex w-full max-w-5xl items-center gap-4 px-6">
-    <SectionHeading index="03" title="CERTIFICADOS" />
-    <span class="nudge -mt-8 text-primary-500" title="Role na horizontal" aria-hidden="true">
+    <SectionHeading index="03" title={t(ui.certificatesTitle)} />
+    <span class="nudge -mt-8 text-primary-500" title={t(ui.certificatesHint)} aria-hidden="true">
       <Icon name="scrollX" size={16} />
     </span>
   </div>
@@ -42,7 +44,7 @@
             aria-hidden={index >= certificates.length}
           >
             <span class="card__year">{cert.date}</span>
-            <span class="card__name">{cert.name}</span>
+            <span class="card__name">{t(cert.name)}</span>
             <span class="card__meta">
               <span>{cert.institution}</span>
               <span aria-hidden="true">↗</span>

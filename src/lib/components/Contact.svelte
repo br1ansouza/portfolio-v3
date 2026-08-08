@@ -1,5 +1,7 @@
 <script lang="ts">
   import { socialLinks, profile } from '../data/profile';
+  import { ui } from '../data/ui';
+  import { t } from '../stores/language.svelte';
   import Icon from './Icon.svelte';
   import SectionHeading from './SectionHeading.svelte';
 
@@ -28,12 +30,12 @@
 </script>
 
 <section id="contato" class="mx-auto w-full max-w-5xl px-6 py-20">
-  <SectionHeading index="04" title="CONTATO" />
+  <SectionHeading index="04" title={t(ui.contactTitle)} />
 
   <button type="button" class="email" onclick={copyEmail}>
     <span class="email__icon"><Icon name="mail" size={20} /></span>
     <span class="email__address">{email}</span>
-    <span class="email__action">{copied ? 'COPIADO' : 'COPIAR'}</span>
+    <span class="email__action">{copied ? t(ui.copiedEmail) : t(ui.copyEmail)}</span>
   </button>
 
   <ul class="links">
@@ -41,7 +43,7 @@
       <li>
         <a href={link.url} target="_blank" rel="noopener noreferrer">
           <span class="links__icon"><Icon name={link.icon} size={18} /></span>
-          <span class="links__label">{link.label}</span>
+          <span class="links__label">{t(link.label)}</span>
           <span class="links__arrow" aria-hidden="true">↗</span>
         </a>
       </li>

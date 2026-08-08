@@ -1,18 +1,21 @@
 import type { TechCategory } from '../types';
 
 export const techCategories: TechCategory[] = [
-  { title: 'Frontend', items: ['TypeScript', 'React', 'Svelte', 'JavaScript'] },
   {
-    title: 'Backend',
+    title: { en: 'Frontend', pt: 'Frontend' },
+    items: ['TypeScript', 'React', 'Svelte', 'JavaScript'],
+  },
+  {
+    title: { en: 'Backend', pt: 'Backend' },
     items: ['Ruby on Rails', 'Node.js', 'PostgreSQL', 'PostGIS'],
   },
   {
-    title: 'Mobile',
+    title: { en: 'Mobile', pt: 'Mobile' },
     items: ['Kotlin', 'Jetpack Compose', 'Capacitor', 'React Native'],
   },
-  { title: 'Testes', items: ['Playwright'] },
+  { title: { en: 'Testing', pt: 'Testes' }, items: ['Playwright'] },
   {
-    title: 'DevOps',
+    title: { en: 'DevOps', pt: 'DevOps' },
     items: ['Docker', 'AWS', 'Linux', 'GitHub Actions', 'CI/CD'],
   },
 ];

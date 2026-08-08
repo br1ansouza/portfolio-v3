@@ -4,6 +4,7 @@
   import type { VelocityListener } from './lib/actions/smoothScroll';
   import Scanlines from './lib/components/Scanlines.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
+  import LanguageToggle from './lib/components/LanguageToggle.svelte';
   import Hero from './lib/components/Hero.svelte';
   import About from './lib/components/About.svelte';
   import Projects from './lib/components/Projects.svelte';
@@ -27,7 +28,10 @@
   });
 </script>
 
-<ThemeToggle />
+<div class="corner-controls">
+  <ThemeToggle />
+  <LanguageToggle />
+</div>
 
 <Scanlines intensity={scrollIntensity} />
 
@@ -38,3 +42,16 @@
   <Certificates />
   <Contact />
 </main>
+
+<style>
+  .corner-controls {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 70;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+</style>
