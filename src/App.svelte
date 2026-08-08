@@ -65,4 +65,10 @@
     align-items: flex-end;
     gap: 0.5rem;
   }
+
+  @media (max-width: 639px) {
+    .corner-controls {
+      position: absolute;
+    }
+  }
 </style>
