@@ -1,23 +1,27 @@
 export type SocialIconName =
-  'mail' | 'github' | 'linkedin' | 'discord' | 'scrollX' | 'lampOn' | 'lampOff';
+  'github' | 'linkedin' | 'discord' | 'scrollX' | 'lampOn' | 'lampOff';
 
 export type ThemeName = 'pixel' | 'pixel-light';
 
+export type Language = 'en' | 'pt';
+
+export type Localized = Record<Language, string>;
+
 export interface SocialLink {
-  label: string;
+  label: Localized;
   url: string;
   icon: SocialIconName;
 }
 
 export interface TechCategory {
-  title: string;
+  title: Localized;
   items: string[];
 }
 
 export interface Project {
   slug: string;
-  title: string;
-  description: string;
+  title: Localized;
+  description: Localized;
   technologies: string[];
   githubUrl: string;
   liveUrl?: string;
@@ -27,15 +31,15 @@ export interface Project {
 }
 
 export interface Certificate {
-  name: string;
+  name: Localized;
   institution: string;
   date: string;
   link: string;
 }
 
 export interface Education {
-  course: string;
-  institution: string;
+  course: Localized;
+  institution: Localized;
   period: string;
   link?: string;
 }

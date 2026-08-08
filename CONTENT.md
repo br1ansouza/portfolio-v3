@@ -16,10 +16,11 @@ ainda não está aprovado. Edite aqui ou direto no código, o que for mais fáci
 
 ## Contato
 
-- E-mail: briandesouza1597@gmail.com
 - LinkedIn: linkedin.com/in/brian-souza
 - GitHub: github.com/br1ansouza
 - Discord: br1ansouza
+
+**Sem e-mail no site** (decisão de 2026-08-08). O contato é só por essas três plataformas. Não reintroduzir o botão de copiar e-mail.
 
 ## Formação acadêmica (estava no Resumo do portfolio v1 — não é experiência profissional)
 
@@ -68,9 +69,13 @@ Novos certificados entram por último, perto do fim do projeto (decisão do usu�
 
 ## Decisões abertas
 
-1. **Paleta e fonte**: verde terminal + Silkscreen implementados. Trocar é editar `src/lib/styles/theme.css`.
-2. **Deploy**: ainda não escolhido (Netlify, Vercel, Cloudflare Pages). O portfolio v1 usava Netlify.
-3. **Visibilidade**: repositório privado. Vira público quando estiver apresentável.
-4. **Foto de perfil**: copiada pra `src/lib/images/profile.jpg` mas ainda não usada em lugar nenhum.
-5. **Ano de "Ambientes Computacionais e Conectividade"**: assumido 2025 (Unisul). Confirmar.
-6. **API de Gestão não tem screenshot**, então é o único projeto sem preview no hover.
+1. **Deploy**: ainda não escolhido (Netlify, Vercel, Cloudflare Pages). O portfolio v1 usava Netlify.
+2. **Visibilidade**: repositório privado. Vira público quando estiver apresentável.
+3. **Ano de "Ambientes Computacionais e Conectividade"**: assumido 2025 (Unisul). Confirmar.
+4. **API de Gestão não tem screenshot**, então é o único projeto sem preview no hover.
+
+## Decisões fechadas
+
+- **Paleta e fonte**: verde terminal + Silkscreen no escuro, laranja queimado no claro. Trocar é editar `src/lib/styles/theme.css`.
+- **Idioma** (2026-08-08): bilíngue EN/PT, inglês como padrão para todo mundo, botão de troca abaixo do de tema. Texto das duas línguas mora junto em `src/lib/data/*.ts`.
+- **Foto de perfil** (2026-08-08): fora do site. Nenhuma foto ou imagem do Brian em nenhuma seção. `src/lib/images/profile.jpg` foi apagado.

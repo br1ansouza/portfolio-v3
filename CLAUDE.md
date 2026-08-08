@@ -26,7 +26,7 @@ validar lá antes de considerar definitivo.
 - Página única, seções ancoradas (`#hero`, `#sobre`, `#projetos`, `#certificados`, `#contato`), scroll suave via Lenis. Sem roteamento, sem múltiplas páginas.
 - **Sem navbar, sem sidebar, sem footer, sem cabeçalho fixo.** Nenhuma barra persistente por cima do conteúdo — isso é o que dá cara de "cardápio de restaurante". Navegação é só scroll. Se algum dia precisar de indicador de posição, tem que ser discreto (ex: um marcador mínimo), nunca uma barra de navegação tradicional.
 - **Sem seção de Experiência Profissional** — decisão explícita do usuário, não reintroduzir. Formação acadêmica é diferente disso e está em aberto (ver `CONTENT.md`).
-- Idioma único: PT-BR. Sem toggle de idioma (simplificação deliberada em relação às versões anteriores, que tinham PT/EN).
+- Bilíngue EN/PT com **inglês como padrão** (ver a seção "Idioma" abaixo). Reverte a decisão anterior de idioma único PT-BR.
 - Certificados: já existe uma base de 7 certificados extraídos do portfolio antigo (`src/lib/data/certificates.ts`). Novos certificados entram por último, perto do fim do projeto — não travar o resto por causa disso.
 - **Princípio central: compacto.** Sem tela sobrando, sem textão animado, sem seção decorativa só pra preencher espaço. Se uma seção não agrega, corta.
 
@@ -64,12 +64,26 @@ Tema Skeleton customizado `pixel`, em `src/lib/styles/theme.css`, aplicado via `
 
 A barra de rolagem nativa está escondida em `global.css` (`scrollbar-width: none` + `::-webkit-scrollbar`), a pedido do usuário. O scroll continua funcionando por roda, toque, teclado (setas, PageUp/Down, Home/End) e pelo Lenis. O que se perde é arrastar a barra com o mouse e a noção visual de progresso na página. Se um dia isso incomodar, a saída é um indicador discreto de progresso, nunca trazer a barra padrão de volta.
 
+## Idioma (EN/PT)
+
+Site bilíngue com **inglês como padrão para todo mundo**, sem detecção de navegador. Botão logo abaixo do de tema alterna para português. Estado em `stores/language.svelte.ts`, persistido em `localStorage`, e o `lang` do `<html>` acompanha.
+
+- Todo texto de conteúdo é `Localized = Record<Language, string>` dentro dos próprios arquivos de `lib/data/`. Não existe arquivo de tradução separado: a versão EN e a PT ficam lado a lado no mesmo objeto, então acrescentar um projeto ou certificado obriga a escrever as duas.
+- Strings de interface (títulos de seção, "COPIAR", "Mais em") ficam em `lib/data/ui.ts`.
+- Componente lê com o helper `t()` de `stores/language.svelte`. Como `language.current` é `$state`, o template reavalia sozinho na troca.
+- **O botão mostra o idioma de destino, não o atual** (mesma lógica do botão de tema, que mostra a lâmpada do tema que vai entrar).
+- **Bandeira foi tentada e descartada.** Em 24x24 com blocos de 2px não há resolução pra diferenciar a bandeira do Brasil da dos EUA: as duas viram um retângulo com um risco. O botão usa o código de duas letras em Silkscreen 16px, que é legível e já é a linguagem do site.
+- A troca usa o mesmo `ditherWipe` do tema (extraído pra `actions/ditherWipe.ts` justamente pra os dois botões compartilharem).
+- As regras de escrita valem igual em inglês: sem travessão no meio de frase, fato concreto no lugar de adjetivo, bio não cita projeto pelo nome.
+
 ## Temas (claro e escuro)
 
-Dois temas Skeleton em `src/lib/styles/theme.css`, trocados pelo botão de lâmpada (`ThemeToggle.svelte`) no canto superior direito. Estado em `stores/theme.svelte.ts`, persistido em `localStorage`, com `prefers-color-scheme` como padrão inicial.
+Dois temas Skeleton em `src/lib/styles/theme.css`. **A troca é pela esfera do hero**; o botão de lâmpada só aparece quando a esfera não existe (largura abaixo de 760px, `prefers-reduced-motion`, sem WebGL2), senão quem está fora desses casos fica sem nenhuma forma de trocar o tema. Quem manda nisso é o `sphereAvailable` no `App.svelte`, alimentado pelo callback do `Hero`. Por isso `theme.init()` e `language.init()` moraram pro corpo do script do `App.svelte`: não podem depender de um componente que às vezes não monta. Estado em `stores/theme.svelte.ts`, persistido em `localStorage`, com `prefers-color-scheme` como padrão inicial.
 
-- **`pixel`** (escuro): base `#0a0a0f`, acento verde `#2fe08a`.
-- **`pixel-light`** (claro): base `#bcc4cf` (cinza-azulado frio), acento **laranja queimado** `#803505`. O verde não sobrevive a fundo claro; a paleta troca de acento junto com o tema.
+- **`pixel`** (escuro): base `#0a0a0f`, acento verde `#2fe08a`. É o padrão e **não deve ser alterado ao mexer no claro**.
+- **`pixel-light`** (claro): base `#eceef2`, acento laranja `#9a3b06`. O verde não sobrevive a fundo claro; a paleta troca de acento junto com o tema.
+- **A primeira versão do claro usava base `#bcc4cf` e acento `#803505` e foi rejeitada por ilegibilidade.** O problema principal era o fundo, não o acento: só trocando o cinza-azulado por um cinza claro de verdade, o mesmo laranja sobe de 4,91 pra 7,44 de contraste. Hoje todos os pares que a UI realmente usa passam de 4,5 (o pior é a assinatura em `surface-600`, com 4,73).
+- **Texto pixel em fundo claro precisa de peso 700.** O mesmo traço fino que "estoura" e fica legível em claro sobre escuro some em escuro sobre claro, principalmente nos labels de 8px. Isso é compensação óptica, não acessibilidade: o contraste já passava. Resolvido pelo token `--font-display-weight` (400 no escuro, 700 no claro), aplicado em `.font-display` no `global.css` e repetido nos poucos blocos `<style>` que usam `var(--font-display)` direto (`Certificates`, `Contact`, `LanguageToggle`). A Silkscreen 700 já estava empacotada.
 - **A escala é invertida no tema claro**: `surface-950` continua sendo o fundo e `surface-50` o texto, só que com os valores trocados. Todos os componentes seguem funcionando sem trocar uma classe sequer.
 - A transição usa o mesmo dithering Bayer do `pixelReveal`: blocos entram cobrindo a tela, o tema troca no meio, os blocos saem.
 - O shader tem tokens próprios, **não reaproveita `--color-surface-*`**: `--dither-ink` e `--dither-strength` (1 no escuro, 1.55 no claro). Foi assim que consegui reforçar o claro sem mexer no escuro; antes qualquer ajuste afetava os dois.
@@ -82,11 +96,21 @@ Dois temas Skeleton em `src/lib/styles/theme.css`, trocados pelo botão de lâmp
 - **Medir do lado errado.** Afirmei que o dev server estava no ar porque o `curl` respondia dentro do WSL, enquanto o navegador do Windows recebia `ERR_CONNECTION_RESET`. Precisa de `server.host: '0.0.0.0'` e teste com `curl.exe` do Windows.
 - **Testar com estado sujo.** Medi contraste do "tema claro" com o `localStorage` já em `pixel-light`, então meu clique levava para o escuro e eu media o tema errado. Forçar o estado (`addInitScript`) antes de medir.
 
+## Mobile
+
+Testado em 360, 390 e 430px de largura, nos dois temas, com `isMobile` e `hasTouch`. Sem overflow horizontal, sem erro de console.
+
+- **Abaixo de 640px os controles de canto viram `position: absolute` em vez de `fixed`.** Fixos, os dois botões ficavam por cima do corpo do texto e comiam palavras inteiras em qualquer seção; a tela é estreita demais pra existir margem livre. Absolutos, eles moram no topo da página e somem ao rolar. Trocar tema ou idioma exige voltar ao topo, o que é aceitável numa página só, e casa melhor com a regra de não ter nada persistente por cima do conteúdo.
+- O fundo dos botões é opaco (`--color-surface-950`), não mais `color-mix` com transparência: com 80% o texto passava por baixo e virava sujeira.
+- A esfera do hero não existe abaixo de 760px, então nesse caso o botão de lâmpada volta a aparecer (ver a seção de Temas).
+- O separador `/` entre cargo e cidade no hero é `hidden sm:inline`. Em tela estreita ele sobrava pendurado no fim da primeira linha.
+- Os previews de projeto já não carregam em `pointer: coarse`, então o hover de vídeo não pesa no celular.
+
 ## Ícones
 
 - Lib escolhida: [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT, ~900 ícones pixel art). Não instalado como dependência — só os `path` SVG usados foram extraídos manualmente pra `src/lib/data/icons.ts` (projeto é pequeno demais pra justificar o pacote inteiro, que também não tem build pra Svelte, só React/Vue/webfont).
 - **Ícone de marca (GitHub/LinkedIn/Discord) não usa o logo oficial** — usa um ícone genérico pixel art (`terminal`, `briefcase`, `message`) com o label ao lado identificando a plataforma. Dois motivos: (1) o logo oficial tem curva suave, quebraria a linguagem 100% pixel/blocada do resto do site; (2) `linkedin.svg` nem existe mais no principal banco de logos open source (`simple-icons`) por pedido de takedown — mais simples nem depender disso.
-- Créditos do pacote em `README.md`.
+- Créditos do pacote em `THIRD-PARTY.md`, junto com a licença da Silkscreen. **Não apagar esse arquivo**: a MIT do pixelarticons e a OFL da Silkscreen exigem que o aviso viaje junto com o que é distribuído, e o README não guarda mais isso.
 
 ## UI: Tailwind 4 + Skeleton 5
 
@@ -107,10 +131,21 @@ Todos falam a mesma língua: **um display CRT/retrô resolvendo uma imagem**. Co
    - **Por que não react-three-fiber / Three.js**: pedido do usuário, avaliado e recusado. Three.js pesa ~600 KB contra ~6 KB deste shader; r3f é React; e portfólio com blob 3D flutuante virou o clichê que este projeto existe pra evitar. O shader ditherizado é raro na web e casa com a linguagem do site.
    - Cor lida em runtime dos tokens do tema (`--color-surface-700`, `--color-primary-500`), então trocar a paleta troca o shader junto.
    - Máscara elíptica em volta do bloco de texto derruba a intensidade pra 12%: sem isso as curvas passam por cima do nome e matam a legibilidade.
+   - **`step(0.0, 0.0)` retorna 1 em GLSL.** A matriz Bayer tem uma entrada zero, então 1 de cada 16 blocos ficava aceso mesmo com intensidade zero e formava uma grade de pontos que nunca sumia. Por isso `bayerThreshold` termina em `* 0.9375 + 0.03125`: os limiares ficam em (0,1) aberto, nunca em 0.
+   - **O `bottomFade` precisa terminar antes de `uv.y = -0.5`**, que é a borda de baixo da tela. Com o valor original (`smoothstep(-0.5, 0.02, uv.y)`) a metade inferior inteira ia apagando e sobrava uma faixa morta de uns 100px acima do indicador de scroll. Hoje é `smoothstep(-0.55, -0.28, uv.y)`: o campo chega no fim do hero e só suaviza na última fatia.
    - Pausa via `IntersectionObserver` quando sai da viewport, DPR limitado a 1.5, e desliga inteiro em `prefers-reduced-motion` ou se não houver WebGL2 (fallback: fundo liso, nada quebra).
-4. **Preview de projeto** (`ProjectPreview.svelte`) — ao passar o mouse na linha, aparece o app rodando. **`<video>` WebM em vez de GIF**: os GIFs dos READMEs têm 3,9 MB e 7,8 MB, contra 78 KB e 113 KB dos WebM equivalentes, com imagem melhor. Projeto sem vídeo cai pro screenshot estático. Ancorado na direita seguindo só a vertical (seguir nos dois eixos tapava o texto), movimento em `steps(5)`, e `image-rendering: pixelated`.
+4. **Esfera do hero** (`sphereLight()` dentro de `ditherShader.ts` + `actions/heroSphere.ts`) — bola ditherizada à direita do nome que troca o tema ao ser clicada.
+   - **Não usa Three.js.** Foi pedido explicitamente com Threlte e recusado depois de medir: um bundle mínimo com só `IcosahedronGeometry`, `ShaderMaterial` e duas luzes dá **130 kB gzip**, contra 99 kB de todo o JS do site hoje. A esfera SDF custou 1,6 kB de GLSL.
+   - **Interseção analítica, não raymarch.** Projeção ortográfica: `z = sqrt(r² - |p|²)`, custo O(1) por pixel. Um raymarch de ~48 passos com fbm por pixel derrubaria o frame rate, porque o shader roda por pixel mesmo quantizando em blocos de 3px.
+   - O wobble são duas camadas: fbm 3D de 3 oitavas pro inchaço lento e um ruído de alta frequência correndo em sentido contrário pras ondulações finas. O raio é deslocado em função da normal, então a silhueta deforma junto.
+   - **A esfera oclui o campo** (`intensity *= 1.0 - coverage`). Sem isso as curvas de nível passam por dentro dela e contaminam a cor, o que ficava especialmente feio no tema claro.
+   - Hover: ímã puxando o centro 32% na direção de `uPointer` (que já vinha suavizado, e é esse atraso que dá a sensação elástica), cor misturando 60% em direção a `--color-surface-50`, e amplitude maior. Tudo quantizado em 5 degraus, nunca em fade.
+   - **`onfocus` só liga o hover se casar com `:focus-visible`.** Sem isso, clicar na esfera deixa foco nela; ao voltar de outra aba o browser restaura o foco, o hover trava ligado e a bola persegue o cursor pela página inteira. Além disso `visibilitychange` e `blur` da janela soltam o hover, porque saindo da aba com o cursor em cima o `pointerleave` nunca dispara.
+   - A área clicável é um `<button>` transparente com `cursor: none`, encolhido a 74% da caixa pra ficar inscrito no círculo: com a caixa cheia o cursor sumia nos cantos vazios, fora da bola.
+   - Some abaixo de 760px de largura, em `prefers-reduced-motion` e sem WebGL2. O botão de lâmpada continua existindo pra quem já rolou a página.
+5. **Preview de projeto** (`ProjectPreview.svelte`) — ao passar o mouse na linha, aparece o app rodando. **`<video>` WebM em vez de GIF**: os GIFs dos READMEs têm 3,9 MB e 7,8 MB, contra 78 KB e 113 KB dos WebM equivalentes, com imagem melhor. Projeto sem vídeo cai pro screenshot estático. Ancorado na direita seguindo só a vertical (seguir nos dois eixos tapava o texto), movimento em `steps(5)`, e `image-rendering: pixelated`.
    - Os vídeos só são baixados quando o elemento entra em cena, ou seja, no hover. O carregamento inicial continua sendo apenas JS + CSS + fonte.
-5. **Scanlines por velocidade de scroll** (`Scanlines.svelte` + callback de velocidade no `smoothScroll.ts`) — linhas de varredura CRT que só aparecem enquanto se rola rápido, proporcionais à velocidade do Lenis. Em repouso são invisíveis. É o detalhe que ninguém espera.
+6. **Scanlines por velocidade de scroll** (`Scanlines.svelte` + callback de velocidade no `smoothScroll.ts`) — linhas de varredura CRT que só aparecem enquanto se rola rápido, proporcionais à velocidade do Lenis. Em repouso são invisíveis. É o detalhe que ninguém espera.
 
 Regras: nada de fade-up em cascata, nada de partícula de fundo, nada de texto digitando letra a letra. Hover de lista é **inversão de cor com `ease-[steps(3,jump-none)]`** (linha inteira vira `bg-primary-500` com texto escuro) — nunca hover-lift com sombra. Todos os efeitos respeitam `prefers-reduced-motion`.
 
@@ -146,6 +181,9 @@ A lista vertical de 11 certificados ficava longa e chata de ler. Virou uma faixa
 - **Cor do card ativo passa por variável CSS, não por seletor descendente.** O Svelte remove seletores como `.card[data-active] .card__year` porque não vê o atributo estaticamente. Definir `--card-year` e companhia no `.card` e trocá-las no estado ativo evita isso sem recorrer a `:global`.
 - **Tentativa descartada**: `ScrollTrigger` com `pin` movendo a faixa conforme o scroll vertical. Funcionava, mas prende a página, que foi exatamente o que o usuário rejeitou.
 - A faixa de captura tem só ~176px de altura, então mover o mouse pra fora já libera o scroll normal. Sem armadilha.
+- **No touch a roda não existe, então a faixa também arrasta com o dedo** (`pointerdown`/`move`/`up` com `setPointerCapture` depois de 6px de folga). O mesmo arrasto vale pro mouse. Um clique que passou da folga é engolido no capture do `click`, senão soltar o dedo abriria o certificado.
+- **`dragstart` precisa de `preventDefault`.** Os cards são `<a href>`, e âncora tem arrasto nativo do browser: no segundo `pointermove` o Chromium abria o drag-and-drop e disparava `pointercancel`, então a faixa andava 20px e travava. Diagnosticado logando os eventos: `pointerdown, pointermove, dragstart, pointercancel`.
+- **`touch-action: pan-y` no viewport.** Deixa o browser cuidar do scroll vertical da página e sobra o horizontal pra gente. Verificado nos dois sentidos com `Input.dispatchTouchEvent` via CDP; `page.mouse` com `isMobile` não serve, porque emite `pointercancel` que não acontece no toque real.
 - O indicador é o ícone `scrollX` (chevrons horizontais do pixelarticons) ao lado do título, na cor de acento, com uma oscilação em `steps(3)`. Texto explicativo foi descartado a pedido do usuário.
 
 ## O que evitar explicitamente (aprendido com as versões antigas)
@@ -194,13 +232,11 @@ exatamente a cara "óbvio que foi feito com IA" que este projeto existe pra evit
 
 - 2026-08-06: repositório criado; casca (Rsbuild + Svelte 5 + TS), navbar/footer removidos, ícones pixelarticons.
 - 2026-08-06 (mesma sessão, depois): Tailwind 4 + Skeleton 5 adotados, tema `pixel` customizado, Silkscreen self-hospedada, as 5 seções construídas e os 3 efeitos assinatura implementados. Validado por screenshot em headless: sem erro de console, hover de inversão funcionando, fonte pixel crispa.
+- 2026-08-08: site bilíngue EN/PT com inglês padrão, campo do shader estendido até o fim do hero, colunas do Sobre reequilibradas, `ProjectCard` morto e `profile.jpg` removidos. **A foto de perfil está fora do site por decisão explícita do usuário ("não quero foto ou imagem minha"), não é pendência.**
 
-**BUG EM ABERTO (prioridade ao retomar):** o campo do shader **não renderiza na máquina do usuário** (Brave, Windows, GPU real), embora renderize no teste headless com SwiftShader e o console não acuse erro de compilação nem de link. Já foi feito: troca da indexação dinâmica de array `const` no shader por Bayer aritmético (risco conhecido de portabilidade de driver) e log de erro de compilação/link. **Falta o retorno do diagnóstico** (tamanho do buffer do canvas, `isContextLost`, GPU) que foi pedido ao usuário. Suspeitas em ordem: canvas com buffer 0x0, contexto WebGL perdido após muitos ciclos de HMR, ou diferença de driver. Não sair chutando correção sem esse dado.
+**BUG RESOLVIDO:** o campo do shader não renderizava na máquina do usuário (Brave, Windows, GPU real). Screenshot dele em 2026-08-08 mostra o campo no ar. O que estava no caminho era a indexação dinâmica de array `const` no shader, trocada por Bayer aritmético.
 
 **Pendente:**
 
-- Foto de perfil: já copiada pra `src/lib/images/profile.jpg` (320px), mas **ainda não usada em lugar nenhum** — decidir se entra no Sobre.
 - API de Gestão e Simulador RPG não têm screenshot (só logo no portfolio antigo), então não têm preview no hover. Ou gerar uma imagem, ou aceitar a assimetria.
-- **Idioma inglês como padrão** (adiado para 2026-08-07). Falta decidir: inglês para todos ou detectar navegador; ícone de idioma abaixo do de tema. Isso reverte a decisão de "idioma único PT-BR" registrada acima.
-- Decisões abertas do `CONTENT.md` (curadoria de projeto, formação acadêmica, deploy, visibilidade do repo).
-- Espaço morto embaixo da coluna de bio no Sobre quando o texto é curto — cosmético, não resolvido.
+- Decisões abertas do `CONTENT.md` (deploy e visibilidade do repo continuam em aberto; idioma, foto e curadoria já fechados).

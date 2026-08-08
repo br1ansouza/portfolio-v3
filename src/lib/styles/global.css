@@ -21,9 +21,32 @@ body {
 }
 
 .font-display {
+  font-weight: var(--font-display-weight);
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
   font-smooth: never;
+}
+
+.corner-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  padding: 0;
+  border: 1px solid var(--color-surface-700);
+  background: var(--color-surface-950);
+  color: var(--color-surface-400);
+  cursor: pointer;
+  transition:
+    color 150ms steps(3, jump-none),
+    border-color 150ms steps(3, jump-none);
+}
+
+.corner-button:hover,
+.corner-button:focus-visible {
+  color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
 }
 
 ::selection {
