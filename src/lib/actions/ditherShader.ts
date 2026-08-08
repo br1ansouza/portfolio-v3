@@ -73,7 +73,7 @@ void main() {
   float glow = smoothstep(0.5, 0.0, length(toPointer));
   float intensity = contour * (0.42 + glow * 1.1) * uStrength;
 
-  float bottomFade = smoothstep(-0.5, 0.02, uv.y);
+  float bottomFade = smoothstep(-0.55, -0.28, uv.y);
   float topFade = smoothstep(0.5, 0.32, uv.y);
   float verticalFade = bottomFade * mix(0.75, 1.0, topFade);
   float aspect = uResolution.x / uResolution.y;
