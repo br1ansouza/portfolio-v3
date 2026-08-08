@@ -33,7 +33,7 @@
 <style>
   .code {
     font-family: var(--font-display);
-    font-weight: var(--font-display-weight);
+    text-shadow: var(--display-emboss);
     font-size: 16px;
     line-height: 1;
     -webkit-font-smoothing: none;
