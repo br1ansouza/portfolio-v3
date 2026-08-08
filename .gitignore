@@ -25,3 +25,7 @@ dist/
 # Contexto local do Claude (nunca versionar)
 CLAUDE.local.md
 .claude/
+
+# Notas de trabalho (nao publicar)
+CLAUDE.md
+CONTENT.md
