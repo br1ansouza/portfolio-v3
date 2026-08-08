@@ -79,7 +79,7 @@
 
     <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-surface-100">
       <span>{t(profile.role)}</span>
-      <span class="text-primary-500">/</span>
+      <span class="hidden text-primary-500 sm:inline">/</span>
       <span>{t(profile.location)}</span>
     </div>
   </div>

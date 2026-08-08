@@ -61,6 +61,7 @@
     overflow: hidden;
     padding-inline: max(1.5rem, calc(50vw - 32rem));
     cursor: ew-resize;
+    touch-action: pan-y;
   }
 
   .track {
@@ -71,6 +72,7 @@
     padding: 0;
     width: max-content;
     will-change: transform;
+    user-select: none;
   }
 
   .card {

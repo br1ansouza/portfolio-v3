@@ -96,6 +96,16 @@ Dois temas Skeleton em `src/lib/styles/theme.css`. **A troca é pela esfera do h
 - **Medir do lado errado.** Afirmei que o dev server estava no ar porque o `curl` respondia dentro do WSL, enquanto o navegador do Windows recebia `ERR_CONNECTION_RESET`. Precisa de `server.host: '0.0.0.0'` e teste com `curl.exe` do Windows.
 - **Testar com estado sujo.** Medi contraste do "tema claro" com o `localStorage` já em `pixel-light`, então meu clique levava para o escuro e eu media o tema errado. Forçar o estado (`addInitScript`) antes de medir.
 
+## Mobile
+
+Testado em 360, 390 e 430px de largura, nos dois temas, com `isMobile` e `hasTouch`. Sem overflow horizontal, sem erro de console.
+
+- **Abaixo de 640px os controles de canto viram `position: absolute` em vez de `fixed`.** Fixos, os dois botões ficavam por cima do corpo do texto e comiam palavras inteiras em qualquer seção; a tela é estreita demais pra existir margem livre. Absolutos, eles moram no topo da página e somem ao rolar. Trocar tema ou idioma exige voltar ao topo, o que é aceitável numa página só, e casa melhor com a regra de não ter nada persistente por cima do conteúdo.
+- O fundo dos botões é opaco (`--color-surface-950`), não mais `color-mix` com transparência: com 80% o texto passava por baixo e virava sujeira.
+- A esfera do hero não existe abaixo de 760px, então nesse caso o botão de lâmpada volta a aparecer (ver a seção de Temas).
+- O separador `/` entre cargo e cidade no hero é `hidden sm:inline`. Em tela estreita ele sobrava pendurado no fim da primeira linha.
+- Os previews de projeto já não carregam em `pointer: coarse`, então o hover de vídeo não pesa no celular.
+
 ## Ícones
 
 - Lib escolhida: [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT, ~900 ícones pixel art). Não instalado como dependência — só os `path` SVG usados foram extraídos manualmente pra `src/lib/data/icons.ts` (projeto é pequeno demais pra justificar o pacote inteiro, que também não tem build pra Svelte, só React/Vue/webfont).
@@ -171,6 +181,9 @@ A lista vertical de 11 certificados ficava longa e chata de ler. Virou uma faixa
 - **Cor do card ativo passa por variável CSS, não por seletor descendente.** O Svelte remove seletores como `.card[data-active] .card__year` porque não vê o atributo estaticamente. Definir `--card-year` e companhia no `.card` e trocá-las no estado ativo evita isso sem recorrer a `:global`.
 - **Tentativa descartada**: `ScrollTrigger` com `pin` movendo a faixa conforme o scroll vertical. Funcionava, mas prende a página, que foi exatamente o que o usuário rejeitou.
 - A faixa de captura tem só ~176px de altura, então mover o mouse pra fora já libera o scroll normal. Sem armadilha.
+- **No touch a roda não existe, então a faixa também arrasta com o dedo** (`pointerdown`/`move`/`up` com `setPointerCapture` depois de 6px de folga). O mesmo arrasto vale pro mouse. Um clique que passou da folga é engolido no capture do `click`, senão soltar o dedo abriria o certificado.
+- **`dragstart` precisa de `preventDefault`.** Os cards são `<a href>`, e âncora tem arrasto nativo do browser: no segundo `pointermove` o Chromium abria o drag-and-drop e disparava `pointercancel`, então a faixa andava 20px e travava. Diagnosticado logando os eventos: `pointerdown, pointermove, dragstart, pointercancel`.
+- **`touch-action: pan-y` no viewport.** Deixa o browser cuidar do scroll vertical da página e sobra o horizontal pra gente. Verificado nos dois sentidos com `Input.dispatchTouchEvent` via CDP; `page.mouse` com `isMobile` não serve, porque emite `pointercancel` que não acontece no toque real.
 - O indicador é o ícone `scrollX` (chevrons horizontais do pixelarticons) ao lado do título, na cor de acento, com uma oscilação em `steps(3)`. Texto explicativo foi descartado a pedido do usuário.
 
 ## O que evitar explicitamente (aprendido com as versões antigas)
