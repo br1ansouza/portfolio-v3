@@ -10,9 +10,15 @@
   import Projects from './lib/components/Projects.svelte';
   import Certificates from './lib/components/Certificates.svelte';
   import Contact from './lib/components/Contact.svelte';
+  import { theme } from './lib/stores/theme.svelte';
+  import { language } from './lib/stores/language.svelte';
+
+  theme.init();
+  language.init();
 
   let scrollIntensity: number = $state(0);
   let scrollProgress: number = $state(0);
+  let sphereAvailable = $state(false);
 
   const handleVelocity: VelocityListener = (intensity: number) => {
     scrollIntensity = intensity;
@@ -29,14 +35,19 @@
 </script>
 
 <div class="corner-controls">
-  <ThemeToggle />
+  {#if !sphereAvailable}
+    <ThemeToggle />
+  {/if}
   <LanguageToggle />
 </div>
 
 <Scanlines intensity={scrollIntensity} />
 
 <main>
-  <Hero scroll={scrollProgress} />
+  <Hero
+    scroll={scrollProgress}
+    onSphereAvailable={(available) => (sphereAvailable = available)}
+  />
   <About />
   <Projects />
   <Certificates />

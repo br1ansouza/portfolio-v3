@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { language, t } from '../stores/language.svelte';
   import { ui } from '../data/ui';
   import { ditherWipe, currentBackground } from '../actions/ditherWipe';
@@ -7,8 +6,6 @@
   let busy = $state(false);
 
   const target = $derived(language.current === 'en' ? 'PT' : 'EN');
-
-  onMount(() => language.init());
 
   async function handleToggle() {
     if (busy) return;
@@ -36,6 +33,7 @@
 <style>
   .code {
     font-family: var(--font-display);
+    font-weight: var(--font-display-weight);
     font-size: 16px;
     line-height: 1;
     -webkit-font-smoothing: none;

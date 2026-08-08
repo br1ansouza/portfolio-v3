@@ -12,9 +12,10 @@
 
   interface Props {
     scroll?: number;
+    onSphereAvailable?: (available: boolean) => void;
   }
 
-  let { scroll = 0 }: Props = $props();
+  let { scroll = 0, onSphereAvailable }: Props = $props();
 
   let field: ReturnType<typeof DitherField> | undefined = $state();
   let sphere: SphereRect = $state(HIDDEN);
@@ -47,7 +48,10 @@
     {scroll}
     {hovered}
     theme={theme.current}
-    onSphere={(rect) => (sphere = rect)}
+    onSphere={(rect) => {
+      sphere = rect;
+      onSphereAvailable?.(rect.size > 0);
+    }}
   />
 
   {#if sphere.size > 0}
