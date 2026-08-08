@@ -9,8 +9,6 @@ export const ui: Record<string, Localized> = {
   certificatesTitle: { en: 'CERTIFICATES', pt: 'CERTIFICADOS' },
   certificatesHint: { en: 'Scroll sideways', pt: 'Role na horizontal' },
   contactTitle: { en: 'CONTACT', pt: 'CONTATO' },
-  copyEmail: { en: 'COPY', pt: 'COPIAR' },
-  copiedEmail: { en: 'COPIED', pt: 'COPIADO' },
   themeToLight: { en: 'Switch to light theme', pt: 'Ativar tema claro' },
   themeToDark: { en: 'Switch to dark theme', pt: 'Ativar tema escuro' },
   languageToPt: { en: 'Mudar para português', pt: 'Mudar para português' },
