@@ -6,7 +6,6 @@ export const ui: Record<string, Localized> = {
   educationLabel: { en: 'EDUCATION', pt: 'FORMAÇÃO' },
   projectsTitle: { en: 'PROJECTS', pt: 'PROJETOS' },
   projectsMore: { en: 'More at', pt: 'Mais em' },
-  projectsPlay: { en: 'play →', pt: 'jogar →' },
   certificatesTitle: { en: 'CERTIFICATES', pt: 'CERTIFICADOS' },
   certificatesHint: { en: 'Scroll sideways', pt: 'Role na horizontal' },
   contactTitle: { en: 'CONTACT', pt: 'CONTATO' },

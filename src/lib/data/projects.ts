@@ -44,7 +44,6 @@ export const projects: Project[] = [
       'Bun',
     ],
     githubUrl: 'https://github.com/br1ansouza/pistacerta-game',
-    liveUrl: 'https://pistacerta.br1ansouza.workers.dev',
     featured: true,
     image: pistacerta,
     video: pistacertaVideo,

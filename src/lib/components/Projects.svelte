@@ -17,9 +17,9 @@
 
   <ul use:pixelReveal={{ columns: 20, rows: 12, duration: 1 }}>
     {#each projects as project, index (project.slug)}
-      <li class="relative border-b border-surface-700">
+      <li>
         <a
-          class="group grid grid-cols-[2rem_1fr_1.5rem] items-baseline gap-x-4 px-3 py-6 transition-colors duration-150 ease-[steps(3,jump-none)] hover:bg-primary-500"
+          class="group grid grid-cols-[2rem_1fr_1.5rem] items-baseline gap-x-4 border-b border-surface-700 px-3 py-6 transition-colors duration-150 ease-[steps(3,jump-none)] hover:bg-primary-500"
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -54,17 +54,6 @@
             →
           </span>
         </a>
-
-        {#if project.liveUrl}
-          <a
-            class="absolute bottom-6 right-3 font-mono text-xs text-primary-500 underline-offset-4 hover:underline"
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t(ui.projectsPlay)}
-          </a>
-        {/if}
       </li>
     {/each}
   </ul>
