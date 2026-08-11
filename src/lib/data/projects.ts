@@ -1,6 +1,8 @@
 import trackrideVideo from '../videos/trackride.webm';
 import chromixVideo from '../videos/chromix.webm';
+import pistacertaVideo from '../videos/pistacerta.webm';
 import trackride from '../images/projects/trackride.png';
+import pistacerta from '../images/projects/pistacerta.png';
 import chromix from '../images/projects/chromix.png';
 import appBank from '../images/projects/app-bank.png';
 import type { Project } from '../types';
@@ -25,6 +27,27 @@ export const projects: Project[] = [
     featured: true,
     image: trackride,
     video: trackrideVideo,
+  },
+  {
+    slug: 'pistacerta',
+    title: { en: 'PistaCerta', pt: 'PistaCerta' },
+    description: {
+      en: 'Car guessing game built around Brazilian motoring culture. Twelve clues are revealed one at a time and the answer never leaves the server until you commit, so it cannot be read from devtools mid-round.',
+      pt: 'Jogo de adivinhação de carros da cultura automotiva brasileira. Doze pistas reveladas uma a uma, e a resposta só sai do servidor quando você responde — não dá para ler no devtools durante a rodada.',
+    },
+    technologies: [
+      'React 19',
+      'TypeScript 7',
+      'Rsbuild',
+      'Tailwind 4',
+      'Cloudflare Workers',
+      'Bun',
+    ],
+    githubUrl: 'https://github.com/br1ansouza/pistacerta-game',
+    liveUrl: 'https://pistacerta.br1ansouza.workers.dev',
+    featured: true,
+    image: pistacerta,
+    video: pistacertaVideo,
   },
   {
     slug: 'chromix',
