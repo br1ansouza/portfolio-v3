@@ -1,5 +1,6 @@
 import trackrideVideo from '../videos/trackride.webm';
 import chromixVideo from '../videos/chromix.webm';
+import pistacertaVideo from '../videos/pistacerta.webm';
 import trackride from '../images/projects/trackride.png';
 import pistacerta from '../images/projects/pistacerta.png';
 import chromix from '../images/projects/chromix.png';
@@ -46,6 +47,7 @@ export const projects: Project[] = [
     liveUrl: 'https://pistacerta.br1ansouza.workers.dev',
     featured: true,
     image: pistacerta,
+    video: pistacertaVideo,
   },
   {
     slug: 'chromix',
