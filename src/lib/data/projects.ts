@@ -32,8 +32,8 @@ export const projects: Project[] = [
     slug: 'pistacerta',
     title: { en: 'PistaCerta', pt: 'PistaCerta' },
     description: {
-      en: 'Car guessing game built around Brazilian motoring culture. Twelve clues are revealed one at a time and the answer never leaves the server until you commit, so it cannot be read from devtools mid-round.',
-      pt: 'Jogo de adivinhação de carros da cultura automotiva brasileira. Doze pistas reveladas uma a uma, e a resposta só sai do servidor quando você responde — não dá para ler no devtools durante a rodada.',
+      en: 'Car guessing game built around Brazilian motoring culture. Twelve clues are revealed one at a time, from year and price up to the engine code, and the catalogue is curated rather than scraped: every spec is checked against a named source.',
+      pt: 'Jogo de adivinhação de carros da cultura automotiva brasileira. Doze pistas reveladas uma a uma, do ano e preço até o código do motor, com catálogo curado à mão: cada spec conferida contra uma fonte registrada.',
     },
     technologies: [
       'React 19',
