@@ -20,6 +20,68 @@ body {
   overflow-x: hidden;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    var(--color-surface-700) 0.7px,
+    transparent 0.8px
+  );
+  background-size: 24px 24px;
+  opacity: 0.1;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 18rem,
+    black 100%
+  );
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.section-frame {
+  position: relative;
+  isolation: isolate;
+  border-top: 1px solid
+    color-mix(in srgb, var(--color-surface-700) 55%, transparent);
+}
+
+.section-frame::before {
+  content: attr(data-section);
+  position: absolute;
+  top: 1.5rem;
+  right: max(1.5rem, calc(50vw - 36rem));
+  z-index: -1;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 10rem);
+  line-height: 1;
+  color: var(--color-surface-900);
+  text-shadow: var(--display-emboss);
+  opacity: 0.54;
+  pointer-events: none;
+}
+
+.section-frame::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: max(1.5rem, calc(50vw - 32rem));
+  width: 6rem;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-primary-500) 0 8px,
+    transparent 8px 12px
+  );
+}
+
 .font-display {
   text-shadow: var(--display-emboss);
   -webkit-font-smoothing: none;
@@ -70,5 +132,18 @@ img {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 639px) {
+  body::before {
+    background-size: 20px 20px;
+    opacity: 0.08;
+  }
+
+  .section-frame::before {
+    top: 1rem;
+    font-size: 5rem;
+    opacity: 0.42;
   }
 }

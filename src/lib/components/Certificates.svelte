@@ -12,10 +12,10 @@
   const loop = [...certificates, ...certificates];
 </script>
 
-<section id="certificados" class="py-20">
-  <div class="mx-auto flex w-full max-w-5xl items-center gap-4 px-6">
-    <SectionHeading index="03" title={t(ui.certificatesTitle)} />
-    <span class="nudge -mt-8 text-primary-500" title={t(ui.certificatesHint)} aria-hidden="true">
+<section id="certificados" class="section-frame certificates-section" data-section="03">
+  <div class="certificates-heading">
+    <SectionHeading index="03" title={t(ui.certificatesTitle)} meta={t(ui.certificatesMeta)} />
+    <span class="nudge" title={t(ui.certificatesHint)} aria-hidden="true">
       <Icon name="scrollX" size={16} />
     </span>
   </div>
@@ -32,6 +32,7 @@
     <ul bind:this={track} class="track">
       {#each loop as cert, index (index)}
         {@const latest = index % certificates.length === 0}
+        {@const position = (index % certificates.length) + 1}
         <li>
           <a
             class="card {latest ? 'card--latest' : ''}"
@@ -43,7 +44,10 @@
             tabindex={index < certificates.length ? 0 : -1}
             aria-hidden={index >= certificates.length}
           >
-            <span class="card__year">{cert.date}</span>
+            <span class="card__top">
+              <span class="card__year">{cert.date}</span>
+              <span class="card__index">CERT / {String(position).padStart(2, '0')}</span>
+            </span>
             <span class="card__name">{t(cert.name)}</span>
             <span class="card__meta">
               <span>{cert.institution}</span>
@@ -57,9 +61,31 @@
 </section>
 
 <style>
+  .certificates-section {
+    padding-block: 8rem;
+    overflow: hidden;
+  }
+
+  .certificates-heading {
+    display: flex;
+    width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 1.5rem;
+  }
+
+  .certificates-heading :global(.section-heading) {
+    flex: 1;
+  }
+
   .viewport {
     overflow: hidden;
-    padding-inline: max(1.5rem, calc(50vw - 32rem));
+    padding: 2rem max(1.5rem, calc(50vw - 32rem));
+    border-top: 1px solid var(--color-surface-800);
+    border-bottom: 1px solid var(--color-surface-800);
+    background: color-mix(in srgb, var(--color-surface-900) 42%, transparent);
     cursor: ew-resize;
     touch-action: pan-y;
   }
@@ -67,10 +93,10 @@
   .track {
     display: flex;
     gap: 1rem;
-    list-style: none;
+    width: max-content;
     margin: 0;
     padding: 0;
-    width: max-content;
+    list-style: none;
     will-change: transform;
     user-select: none;
   }
@@ -81,17 +107,36 @@
     --card-meta: var(--color-surface-500);
     --card-bg: transparent;
 
+    position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     width: 15rem;
     height: 11rem;
     flex-shrink: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
     padding: 1rem;
     border: 1px solid var(--color-surface-700);
     background: var(--card-bg);
     text-decoration: none;
     transition: background-color 150ms steps(3, jump-none);
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-primary-500) 0 8px,
+      transparent 8px 12px
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms steps(4, jump-none);
   }
 
   .card--latest {
@@ -106,11 +151,34 @@
     --card-meta: var(--color-surface-800);
   }
 
-  .card__year {
+  .card[data-active]::after,
+  .card:focus-visible::after,
+  .card--latest::after {
+    transform: scaleX(1);
+  }
+
+  .card__top,
+  .card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .card__year,
+  .card__index {
     font-family: var(--font-display);
     text-shadow: var(--display-emboss);
+  }
+
+  .card__year {
     font-size: 16px;
     color: var(--card-year);
+  }
+
+  .card__index {
+    font-size: 8px;
+    color: var(--card-meta);
   }
 
   .card__name {
@@ -120,15 +188,14 @@
   }
 
   .card__meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     font-size: 0.75rem;
     color: var(--card-meta);
   }
 
   .nudge {
     display: inline-flex;
+    margin-top: -3.5rem;
+    color: var(--color-primary-500);
     animation: nudge 2s steps(3, jump-none) infinite;
   }
 
@@ -139,6 +206,16 @@
     }
     50% {
       transform: translateX(3px);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .certificates-section {
+      padding-block: 6rem;
+    }
+
+    .viewport {
+      padding-block: 1.5rem;
     }
   }
 </style>
