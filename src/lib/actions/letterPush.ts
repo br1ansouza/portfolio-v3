@@ -13,11 +13,13 @@ export const letterPush: Action<HTMLElement, string> = (node, text) => {
 
   function build(value: string) {
     node.textContent = '';
+    node.setAttribute('aria-label', value);
     letters.length = 0;
 
     for (const character of value) {
       const span = document.createElement('span');
       span.textContent = character === ' ' ? ' ' : character;
+      span.setAttribute('aria-hidden', 'true');
       span.style.display = 'inline-block';
       span.style.willChange = 'transform';
       node.appendChild(span);

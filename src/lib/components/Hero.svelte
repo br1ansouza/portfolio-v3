@@ -67,6 +67,12 @@
       aria-label={theme.current === 'pixel' ? t(ui.themeToLight) : t(ui.themeToDark)}
       aria-pressed={theme.current === 'pixel-light'}
     ></button>
+    <span
+      class="sphere-caption"
+      class:sphere-caption--active={hovered}
+      style="left:{sphere.x + sphere.size / 2}px;top:{sphere.y + sphere.size + 10}px"
+      aria-hidden="true"
+    >THEME / CLICK</span>
   {/if}
 
   <div class="relative z-1 mx-auto w-full max-w-5xl px-6">
@@ -90,6 +96,11 @@
   >
     <span class="blink">▼</span>
   </div>
+
+  <div class="hero-system" aria-hidden="true">
+    <span>WEBGL2 / GLSL / BAYER 4×4</span>
+    <span>00 / 04</span>
+  </div>
 </section>
 
 <style>
@@ -99,7 +110,54 @@
     padding: 0;
     border: 0;
     background: transparent;
-    cursor: none;
+    cursor: crosshair;
+  }
+
+  .sphere::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1px solid var(--color-primary-500);
+    opacity: 0;
+    transition: opacity 150ms steps(3, jump-none);
+  }
+
+  .sphere:hover::after,
+  .sphere:focus-visible::after {
+    opacity: 0.65;
+  }
+
+  .sphere-caption {
+    position: absolute;
+    z-index: 2;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    text-shadow: var(--display-emboss);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    color: var(--color-surface-600);
+    pointer-events: none;
+    transition: color 150ms steps(3, jump-none);
+  }
+
+  .sphere-caption--active {
+    color: var(--color-primary-500);
+  }
+
+  .hero-system {
+    position: absolute;
+    right: max(1.5rem, calc(50vw - 32rem));
+    bottom: 2rem;
+    left: max(1.5rem, calc(50vw - 32rem));
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-display);
+    text-shadow: var(--display-emboss);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: var(--color-surface-600);
   }
 
   .blink {
@@ -114,6 +172,12 @@
     51%,
     100% {
       opacity: 0.15;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero-system {
+      display: none;
     }
   }
 </style>

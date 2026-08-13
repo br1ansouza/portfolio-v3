@@ -10,6 +10,7 @@
   import Projects from './lib/components/Projects.svelte';
   import Certificates from './lib/components/Certificates.svelte';
   import Contact from './lib/components/Contact.svelte';
+  import ScrollProgress from './lib/components/ScrollProgress.svelte';
   import { theme } from './lib/stores/theme.svelte';
   import { language } from './lib/stores/language.svelte';
 
@@ -42,6 +43,7 @@
 </div>
 
 <Scanlines intensity={scrollIntensity} />
+<ScrollProgress />
 
 <main>
   <Hero
