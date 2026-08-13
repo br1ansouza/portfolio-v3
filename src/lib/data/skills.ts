@@ -7,13 +7,16 @@ export const techCategories: TechCategory[] = [
   },
   {
     title: { en: 'Backend', pt: 'Backend' },
-    items: ['Ruby on Rails', 'Node.js', 'PostgreSQL', 'PostGIS'],
+    items: ['Node.js', 'Express', 'TypeORM', 'PostgreSQL'],
   },
   {
     title: { en: 'Mobile', pt: 'Mobile' },
-    items: ['Kotlin', 'Jetpack Compose', 'Capacitor', 'React Native'],
+    items: ['React Native', 'Expo', 'Capacitor', 'Kotlin'],
   },
-  { title: { en: 'Testing', pt: 'Testes' }, items: ['Playwright'] },
+  {
+    title: { en: 'Architecture', pt: 'Arquitetura' },
+    items: ['Module Federation', 'Monorepo', 'Microservices', 'REST APIs'],
+  },
   {
     title: { en: 'DevOps', pt: 'DevOps' },
     items: ['Docker', 'AWS', 'Linux', 'GitHub Actions', 'CI/CD'],

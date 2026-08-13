@@ -16,16 +16,16 @@ export const profile: Profile = {
   location: { en: 'Florianópolis, Brazil', pt: 'Florianópolis, BR' },
   bio: [
     {
-      en: 'I work with React and TypeScript on scalable applications, consuming REST APIs over a microservices architecture, with automated tests in Playwright and a monorepo setup.',
-      pt: 'Trabalho com React e TypeScript em aplicações escaláveis, integrando APIs REST sobre arquitetura de microsserviços, com testes automatizados em Playwright e ambiente monorepo.',
+      en: 'I work mainly with React and TypeScript, building and evolving scalable web applications. In my day-to-day work, I contribute to a modular frontend ecosystem, with multiple modules integrated through Module Federation and REST APIs backed by a microservices architecture.',
+      pt: 'Trabalho principalmente com React e TypeScript na construção e evolução de aplicações web escaláveis. No dia a dia, atuo em um ecossistema frontend modular, com múltiplos módulos integrados por Module Federation e consumo de APIs REST sobre uma arquitetura de microsserviços.',
     },
     {
-      en: 'On my own projects I handle the whole stack: a Ruby on Rails API with PostGIS, hybrid Android with Capacitor and native Android in Kotlin. That is where I solved GPS tracking that keeps running with the screen locked and maps that work with no network.',
-      pt: 'Nos meus projetos toco a stack inteira: API em Ruby on Rails com PostGIS e Android, híbrido com Capacitor e nativo em Kotlin. Foi neles que resolvi GPS rodando em segundo plano com a tela bloqueada e mapa funcionando sem rede.',
+      en: 'I also build mobile applications with React Native and APIs with Node.js, TypeORM and PostgreSQL. In personal projects I work across the whole product and explore new tools — currently Svelte — to solve problems such as background geolocation, offline maps and experiences that extend beyond the browser.',
+      pt: 'Também desenvolvo aplicações mobile com React Native e APIs com Node.js, TypeORM e PostgreSQL. Nos projetos autorais, exploro o produto de ponta a ponta e experimento novas ferramentas — atualmente Svelte — para resolver problemas como geolocalização em segundo plano, mapas offline e experiências que vão além do navegador.',
     },
     {
-      en: 'I am taking the Master DevOps: Engineering & Tech Agile graduate program. CI pipeline with lint, security analysis and build stages, plus Docker, AWS and Linux.',
-      pt: 'Curso a pós Master DevOps: Engineering & Tech Agile. Pipeline de CI com etapas de lint, análise de segurança e build, e trabalho com Docker, AWS e Linux.',
+      en: 'I hold a degree in Systems Analysis and Development from Unisul and am currently pursuing the Master DevOps: Engineering & Tech Agile postgraduate program. I continue expanding that foundation with Docker, AWS, Linux and CI/CD pipelines.',
+      pt: 'Sou formado em Análise e Desenvolvimento de Sistemas pela Unisul e curso a pós-graduação Master DevOps: Engineering & Tech Agile. Amplio essa base com Docker, AWS, Linux e pipelines de CI/CD.',
     },
   ],
 };
