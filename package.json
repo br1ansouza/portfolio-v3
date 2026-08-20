@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@rsbuild/core": "^2.1.10",
+    "@rsbuild/core": "^2.1.13",
     "@rsbuild/plugin-svelte": "^2.0.1",
     "@rsbuild/plugin-tailwindcss": "^2.0.3",
     "@skeletonlabs/skeleton": "^5.0.0",
