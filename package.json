@@ -30,7 +30,7 @@
     "@skeletonlabs/skeleton": "^5.0.0",
     "@skeletonlabs/skeleton-svelte": "^5.0.0",
     "@types/node": "^26.2.0",
-    "eslint": "^10.8.1",
+    "eslint": "^10.9.0",
     "eslint-plugin-svelte": "^3.23.0",
     "globals": "^17.6.0",
     "prettier": "^3.8.3",
