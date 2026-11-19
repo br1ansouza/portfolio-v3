@@ -28,7 +28,7 @@
     "@rsbuild/plugin-svelte": "^2.0.1",
     "@rsbuild/plugin-tailwindcss": "^2.0.3",
     "@skeletonlabs/skeleton": "^5.0.4",
-    "@skeletonlabs/skeleton-svelte": "^5.0.1",
+    "@skeletonlabs/skeleton-svelte": "^5.0.4",
     "eslint": "^10.14.0",
     "@types/node": "^26.6.6",
     "eslint-plugin-svelte": "^3.24.1",
