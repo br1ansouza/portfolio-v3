@@ -1,10 +1,11 @@
 import trackrideVideo from '../videos/trackride.webm';
 import chromixVideo from '../videos/chromix.webm';
 import pistacertaVideo from '../videos/pistacerta.webm';
+import listavivaVideo from '../videos/listaviva.webm';
 import trackride from '../images/projects/trackride.png';
 import pistacerta from '../images/projects/pistacerta.png';
 import chromix from '../images/projects/chromix.png';
-import appBank from '../images/projects/app-bank.png';
+import listaviva from '../images/projects/listaviva.png';
 import type { Project } from '../types';
 
 export const projects: Project[] = [
@@ -62,16 +63,24 @@ export const projects: Project[] = [
     video: chromixVideo,
   },
   {
-    slug: 'app-bank',
-    title: { en: 'App Bank', pt: 'App Bank' },
+    slug: 'listaviva',
+    title: { en: 'ListaViva', pt: 'ListaViva' },
     description: {
-      en: 'Mobile banking app with JWT authentication, balance, recent transactions, spending chart and virtual card.',
-      pt: 'Aplicativo bancário mobile com autenticação JWT, saldo, transações recentes, gráfico de gastos e cartão virtual.',
+      en: 'Real-time collaborative lists with no sign-up. Create one, drop the link in the group chat and everyone edits together, watching each item get crossed off live. Shopping lists add up quantity and price as you go.',
+      pt: 'Listas colaborativas em tempo real, sem cadastro. Você cria, manda o link no grupo e todo mundo edita junto, vendo cada item ser riscado na hora. A lista de compras soma quantidade e preço enquanto você anda pelo mercado.',
     },
-    technologies: ['React Native', 'TypeScript', 'Expo', 'JWT', 'Node.js'],
-    githubUrl: 'https://github.com/br1ansouza/App-Bank',
+    technologies: [
+      'React 19',
+      'TypeScript',
+      'Ruby on Rails',
+      'Action Cable',
+      'PostgreSQL',
+      'Cloudflare Workers',
+    ],
+    githubUrl: 'https://github.com/br1ansouza/listaviva',
     featured: true,
-    image: appBank,
+    image: listaviva,
+    video: listavivaVideo,
   },
   {
     slug: 'api-gestao',
